@@ -5,21 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 
-
-const val EXTRA_MESSAGE = "com.example.emojiclicker.MESSAGE"
-
-class MainActivity : AppCompatActivity() {
-
-
+class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_menu)
     }
-
-    fun heroes(view: View){
-        val intent = Intent(this,HeroesActivity::class.java).apply {
-            putExtra(EXTRA_MESSAGE,0)
+    fun zpet(view: View) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra(EXTRA_MESSAGE, 0)
         }
         startActivity(intent)
     }
+
 }
