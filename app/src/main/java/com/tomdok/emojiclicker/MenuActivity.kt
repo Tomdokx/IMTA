@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 
 class MenuActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
     }
+
     fun zpet(view: View) {
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(EXTRA_MESSAGE, 0)
@@ -17,5 +19,4 @@ class MenuActivity : AppCompatActivity() {
         startActivity(intent)
         //novy_koment
     }
-
 }
