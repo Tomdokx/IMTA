@@ -15,6 +15,7 @@ class MenuActivity : AppCompatActivity() {
             putExtra(EXTRA_MESSAGE, 0)
         }
         startActivity(intent)
+        //novy_koment
     }
 
 }
