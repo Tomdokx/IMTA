@@ -17,5 +17,8 @@ class HeroesActivity : AppCompatActivity() {
         }
         startActivity(intent)
         // chmeldom
+        //jbopajstpo
+        //astjopast
+        //astjopwe
     }
 }
