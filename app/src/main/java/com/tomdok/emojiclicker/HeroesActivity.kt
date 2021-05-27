@@ -16,5 +16,6 @@ class HeroesActivity : AppCompatActivity() {
             putExtra(EXTRA_MESSAGE, 0)
         }
         startActivity(intent)
+        // chmeldom
     }
 }
