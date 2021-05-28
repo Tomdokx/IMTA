@@ -13,12 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
-        android:onClick="heroes"/>
-=======
-        app:layout_constraintVertical_bias="0.457"
-        tools:context=".MainActivityin">
+        app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
             android:id="@+id/btnGame"
@@ -67,10 +62,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
->>>>>>> 18a6c847ce6ef6b9f1a7634e3ceb527455920853
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView"
