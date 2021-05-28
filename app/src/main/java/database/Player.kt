@@ -7,8 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "table_players")
 data class Player (
 
-    @PrimaryKey(autoGenerate = true) val id: Long? = 0L,
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "coins") val coins: Int,
-    @ColumnInfo(name = "dps") val dps: Float
+    @PrimaryKey val name: String,
+    @ColumnInfo val coins: Int,
+    @ColumnInfo val dps: Float
 )

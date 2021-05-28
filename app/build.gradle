@@ -47,7 +47,7 @@ dependencies {
     def room_version = "2.2.6"
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    kapt "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
+    kapt "androidx.room:room-compiler:$room_version"
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }

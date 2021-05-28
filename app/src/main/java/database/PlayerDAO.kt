@@ -6,20 +6,20 @@ import androidx.room.*
 interface PlayerDAO {
 
     @Insert
-    fun insertPlayer(player: Player)
+    fun insert(player: Player)
 
-    @Delete
-    fun deletePlayer(name: String)
+    @Query("SELECT * FROM table_players")
+    fun getAll(): List<Player>
+
+    @Query("SELECT * FROM table_players WHERE name LIKE :name")
+    fun get(name: String): Player
 
     @Query("DELETE FROM table_players")
     fun deleteAll()
 
+    @Query("DELETE FROM table_players WHERE name LIKE :name")
+    fun delete(name: String)
+
     @Update
-    fun updatePlayer(player: Player)
-
-    @Query("SELECT * FROM table_players WHERE name LIKE :name")
-    fun getPlayer(name: String): Player
-
-    @Query("SELECT * FROM table_players")
-    fun getAll(): List<Player>
+    fun update(player: Player)
 }

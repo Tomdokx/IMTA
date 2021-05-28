@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Player::class, Hero::class, Record::class, Settings::class], version = 1, exportSchema = false)
+@Database(entities = [Player::class, Hero::class, Record::class, Settings::class], version = 5, exportSchema = false)
 abstract class GameDatabase : RoomDatabase() {
 
     abstract val playerDAO: PlayerDAO
     abstract val heroDAO: HeroDAO
-    abstract val recordDAO: Record
+    abstract val recordDAO: RecordDAO
     abstract val settingsDAO: SettingsDAO
 
     companion object {

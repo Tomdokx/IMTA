@@ -8,17 +8,17 @@ import androidx.room.Query
 interface RecordDAO {
 
     @Insert
-    fun insertRecord(record: Record)
+    fun insert(record: Record)
+
+    @Query("SELECT * FROM table_records")
+    fun getAll(): List<Record>
+
+    @Query("SELECT * FROM table_records WHERE player_name LIKE :player_name")
+    fun get(player_name: String): Record
 
     @Query("DELETE FROM table_records")
     fun deleteAll()
 
     @Query("DELETE FROM table_records WHERE player_name LIKE :player_name")
-    fun deleteAll(player_name: String)
-
-    @Query("SELECT * FROM table_records")
-    fun getAll() : List<Record>
-
-    @Query("SELECT * FROM table_records WHERE player_name LIKE :player_name")
-    fun getAll(player_name: String) : List<Record>
+    fun delete(player_name: String)
 }
