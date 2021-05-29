@@ -4,4 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShopActivity"/>
+    tools:context=".ShopActivity">
+
+    <LinearLayout
+        android:layout_width="336dp"
+        android:layout_height="117dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout">
+
+        <ImageView
+            android:id="@+id/iVAbility"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/avatar2" />
+
+        <TextView
+            android:id="@+id/tVAbility"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="XXX" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="360dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnUpgrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Upgrade" />
+
+        <Button
+            android:id="@+id/btnBackToGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:text="Back" />
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="342dp"
+        android:layout_height="353dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TableRow
+            android:id="@+id/tRPlayer"
+            android:layout_width="373dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_bgtr">
+
+            <ImageView
+                android:id="@+id/iVPlayer"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/avatar2" />
+
+            <TextView
+                android:id="@+id/tVPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tRHero1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_bgtr">
+
+            <ImageView
+                android:id="@+id/iVHero1"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/avatar2"
+                tools:srcCompat="@drawable/avatar2" />
+
+            <TextView
+                android:id="@+id/tVHero1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tRHero2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_bgtr">
+
+            <ImageView
+                android:id="@+id/iVHero2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/avatar2"
+                tools:srcCompat="@drawable/avatar2" />
+
+            <TextView
+                android:id="@+id/tVHero2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tRHero3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_bgtr">
+
+            <ImageView
+                android:id="@+id/iVHero3"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/avatar2"
+                tools:srcCompat="@drawable/avatar2" />
+
+            <TextView
+                android:id="@+id/tVHero3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tRHero4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_bgtr">
+
+            <ImageView
+                android:id="@+id/iVHero4"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:padding="3dp"
+                app:srcCompat="@drawable/avatar2"
+                tools:srcCompat="@drawable/avatar2" />
+
+            <TextView
+                android:id="@+id/tVHero4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/tvTCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="25dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
