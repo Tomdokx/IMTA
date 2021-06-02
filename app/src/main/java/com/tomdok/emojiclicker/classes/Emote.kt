@@ -1,6 +1,6 @@
 package com.tomdok.emojiclicker.classes
 
-class Emote(_id: Int, _name: String, _maxHp: Double, _picture: Int) {
+class Emote(_id: Long, _name: String, _maxHp: Double, _picture: Int) {
 
     var currentHp = _maxHp
     val picture = _picture
