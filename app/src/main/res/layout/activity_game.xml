@@ -103,4 +103,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame"
         app:layout_constraintVertical_bias="0.657" />
 
+    <View
+        android:id="@+id/viewHPBarBack"
+        android:layout_width="182dp"
+        android:layout_height="18dp"
+        android:background="@drawable/ic_launcher_hp_bar_back"
+        app:layout_constraintBottom_toTopOf="@+id/ibtnMonster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame"
+        app:layout_constraintVertical_bias="0.657" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

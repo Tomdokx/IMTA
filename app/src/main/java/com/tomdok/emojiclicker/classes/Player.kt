@@ -1,12 +1,16 @@
 package com.tomdok.emojiclicker.classes
 
-class Player(name:String, tCoins:Int, dps:Double) {
-    private var dps = dps
-    private var tCoins = tCoins
-    private val name = name
+import java.io.Serializable
+import kotlin.random.Random
 
-    fun getNamePlayer(): String {return this.name}
-    fun getTCoinsPlayer(): Int {return this.tCoins}
-    fun getDPSPlayer(): Double {return this.dps}
-    fun setTCoinsPlayer(value:Int) {this.tCoins = value}
+class Player(_name: String, _tCoins: Int, _dps: Double): Serializable {
+
+    var dps = _dps
+    var tCoins = _tCoins
+    val name = _name
+
+    fun clickAndDoDps(emote: Emote){
+
+        emote.getHurt(dps)
+    }
 }

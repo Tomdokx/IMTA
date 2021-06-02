@@ -1,28 +1,15 @@
 package com.tomdok.emojiclicker.classes
 
-import android.media.Image
+class Emote(_id: Int, _name: String, _maxHp: Double, _picture: Int) {
 
-class Emote(id:Int, name:String, maxHp:Double, picture:Image) {
-    private var currentHp = maxHp
+    var currentHp = _maxHp
+    val picture = _picture
+    val maxHp = _maxHp
+    val name = _name
+    val id = _id
 
-    private val picture = picture
+    fun getHurt(dps: Double){
 
-    private val maxHp = maxHp
-
-    private val name = name
-
-    private val id = id
-
-    fun getNameEmote(): String {return this.name}
-
-    fun getIdEmote(): Int {return this.id}
-
-    fun getMaxHpEmote(): Double {return this.maxHp}
-
-    fun getCurrentHpEmote(): Double {return this.currentHp}
-
-    fun setCurrentHpEmote(value: Double) {this.currentHp = value}
-
-    fun getPictureEmote(): Image {return this.picture}
-
+        currentHp -= dps
+    }
 }

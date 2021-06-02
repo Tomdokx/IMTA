@@ -7,16 +7,19 @@ import android.widget.Button
 
 class InfoActivity : AppCompatActivity() {
 
-    private val btnBack by lazy{
+    private val btnBack by lazy {
         findViewById<Button>(R.id.btnBack)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
 
         try {
+
             this.supportActionBar!!.hide()
         } catch (e: NullPointerException) {
+
         }
 
         setContentView(R.layout.activity_info)
@@ -25,6 +28,7 @@ class InfoActivity : AppCompatActivity() {
     }
 
     private fun goBack() {
+
         finish()
     }
 }
