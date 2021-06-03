@@ -62,8 +62,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/monkas"
-        tools:srcCompat="@drawable/monkas" />
+        app:srcCompat="@drawable/emote_feelsgoodman"
+        tools:srcCompat="@drawable/emote_feelsgoodman" />
 
     <TextView
         android:id="@+id/tvTCoinsGame"
