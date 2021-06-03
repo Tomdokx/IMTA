@@ -44,13 +44,15 @@ class ShopActivity : AppCompatActivity() {
         btnBackToGame.setOnClickListener { goBackToGame() }
         btnUpgrade.setOnClickListener { upgrade() }
 
-        val player = Player("Player1", 100, 90.6)
+        val player = Player("Player1", 1, 100, 90.6)
         val heroes = listOf(
-            Hero(0, 1, 88.6, R.drawable.avatar2),
-            Hero(1, 10, 84.5, R.drawable.avatar2),
-            Hero(2, 6, 23.3, R.drawable.avatar2),
-            Hero(3, 82, 12.3, R.drawable.avatar2),
+            Hero(0, "Hero1",1, 88.6, R.drawable.avatar2),
+            Hero(1, "Hero2",10, 84.5, R.drawable.avatar2),
+            Hero(2, "Hero3",6, 23.3, R.drawable.avatar2),
+            Hero(3, "Hero4",82, 12.3, R.drawable.avatar2),
         )
+
+        tVCoins.text = player.tCoins.toString()
 
         recyclerViewHeroes.adapter = RecyclerViewHeroesAdapter(applicationContext, heroes, player,
             onClick = { holder, selectedPosition ->
@@ -101,8 +103,8 @@ class ShopActivity : AppCompatActivity() {
         class ViewHolderPlayer(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
             val imageViewPlayer: ImageView = view.findViewById(R.id.imageViewPlayer)
-            val textViewName: TextView = view.findViewById(R.id.textViewName)
-            val textViewDps: TextView = view.findViewById(R.id.textViewDps)
+            val textViewName: TextView = view.findViewById(R.id.recyclerview_row_player_textViewName)
+            val textViewLevel: TextView = view.findViewById(R.id.recyclerview_row_player_textViewLevel)
 
             var selected: Boolean = false
                 set(value) {
@@ -133,8 +135,8 @@ class ShopActivity : AppCompatActivity() {
         inner class ViewHolderHero(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
             val imageViewHero: ImageView = view.findViewById(R.id.imageViewHero)
-            val textViewLevel: TextView = view.findViewById(R.id.textViewLevel)
-            val textViewDps: TextView = view.findViewById(R.id.textViewDps)
+            val textViewName: TextView = view.findViewById(R.id.recyclerview_row_hero_textViewName)
+            val textViewLevel: TextView = view.findViewById(R.id.recyclerview_row_player_textViewLevel)
 
             var selected: Boolean = false
                 set(value) {
@@ -190,7 +192,7 @@ class ShopActivity : AppCompatActivity() {
                     val holder = holder as ViewHolderPlayer
                     holder.imageViewPlayer.setImageResource(R.drawable.avatar2)
                     holder.textViewName.text = player.name
-                    holder.textViewDps.text = player.dps.toString()
+                    holder.textViewLevel.text = player.level.toString()
                     holder.onClick = {
 
                         selectedPosition = position
@@ -202,8 +204,8 @@ class ShopActivity : AppCompatActivity() {
                     val holder = holder as ViewHolderHero
                     val hero = heroes[position - 1]
                     holder.imageViewHero.setImageResource(hero.picture)
+                    holder.textViewName.text = hero.name
                     holder.textViewLevel.text = hero.level.toString()
-                    holder.textViewDps.text = hero.baseDPS.toString()
                     holder.onClick = {
 
                         selectedPosition = position

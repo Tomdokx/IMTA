@@ -36,7 +36,7 @@ class GameActivity : AppCompatActivity() {
     }
 
     private var tCoins = 0
-    val player = Player("Name",0,10.0)
+    val player = Player("Name",1,90, 84.4)
     val emote = Emote(0,"NameEmote",500.0,R.drawable.avatar2)
 
     private val rnd = Random(8654231597)
