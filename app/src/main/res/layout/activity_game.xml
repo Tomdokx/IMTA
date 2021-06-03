@@ -65,54 +65,49 @@
 
     <TextView
         android:id="@+id/tvTCoinsGame"
-        android:layout_width="wrap_content"
+        android:layout_width="14dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="25dp"
         android:text="0"
-        app:layout_constraintBottom_toBottomOf="@+id/iVBoss"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.536"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvLevel"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/ic_launcher_levelbackground"
         android:gravity="center_vertical|center_horizontal"
         android:text="0"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toEndOf="@+id/tvTCoinsGame"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/viewHPBar"
         android:layout_width="182dp"
         android:layout_height="18dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/ic_launcher_hp_bar"
         app:layout_constraintBottom_toTopOf="@+id/ibtnMonster"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame"
-        app:layout_constraintVertical_bias="0.657" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame" />
 
     <View
         android:id="@+id/viewHPBarBack"
         android:layout_width="182dp"
         android:layout_height="18dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/ic_launcher_hp_bar_back"
         app:layout_constraintBottom_toTopOf="@+id/ibtnMonster"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame"
-        app:layout_constraintVertical_bias="0.657" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
