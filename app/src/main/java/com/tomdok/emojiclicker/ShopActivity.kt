@@ -7,9 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import com.tomdok.emojiclicker.classes.Hero
+import com.tomdok.emojiclicker.classes.Player
 
 class ShopActivity : AppCompatActivity() {
 
@@ -44,59 +44,194 @@ class ShopActivity : AppCompatActivity() {
         btnBackToGame.setOnClickListener { goBackToGame() }
         btnUpgrade.setOnClickListener { upgrade() }
 
+        val player = Player("Player1", 100, 90.6)
         val heroes = listOf(
             Hero(0, 1, 88.6, R.drawable.avatar2),
             Hero(1, 10, 84.5, R.drawable.avatar2),
             Hero(2, 6, 23.3, R.drawable.avatar2),
-            Hero(3, 82, 12.3, R.drawable.avatar2)
+            Hero(3, 82, 12.3, R.drawable.avatar2),
         )
 
-        recyclerViewHeroes.adapter = RecyclerViewHeroesAdapter(applicationContext, heroes)
+        recyclerViewHeroes.adapter = RecyclerViewHeroesAdapter(applicationContext, heroes, player,
+            onClick = { holder, selectedPosition ->
+
+                for (i in 1 until recyclerViewHeroes.adapter?.itemCount!!) {
+
+                    val holder = recyclerViewHeroes.findViewHolderForAdapterPosition(i) as RecyclerViewHeroesAdapter.ViewHolderHero?
+                    holder?.selected = false
+                }
+
+                when (selectedPosition) {
+
+                    0 -> {
+
+                        val holder = holder as RecyclerViewHeroesAdapter.ViewHolderPlayer
+                        holder.selected = true
+                    }
+                    else -> {
+
+                        val holder = holder as RecyclerViewHeroesAdapter.ViewHolderHero
+                        holder.selected = true
+                        val playerHolder: RecyclerViewHeroesAdapter.ViewHolderPlayer? = recyclerViewHeroes.findViewHolderForAdapterPosition(0) as RecyclerViewHeroesAdapter.ViewHolderPlayer?
+                        playerHolder?.selected = false
+                    }
+                }
+        })
     }
 
     private fun upgrade() {
+
         TODO("Not yet implemented")
     }
 
     private fun goBackToGame() {
+
         finish()
     }
 
-    private class RecyclerViewHeroesAdapter(private val context: Context, private val heroes: List<Hero>) : RecyclerView.Adapter<RecyclerViewHeroesAdapter.ViewHolder>() {
+    class RecyclerViewHeroesAdapter(
+        private val context: Context,
+        private val heroes: List<Hero>,
+        private val player: Player,
+        private val onClick: (holder: RecyclerView.ViewHolder, selectedPosition: Int) -> Unit
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        class ViewHolder(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
+        var selectedPosition: Int = 0
+
+        class ViewHolderPlayer(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
+
+            val imageViewPlayer: ImageView = view.findViewById(R.id.imageViewPlayer)
+            val textViewName: TextView = view.findViewById(R.id.textViewName)
+            val textViewDps: TextView = view.findViewById(R.id.textViewDps)
+
+            var selected: Boolean = false
+                set(value) {
+
+                    field = value
+                    if (value) {
+
+                        itemView.background.alpha = 255
+                    } else {
+
+                        itemView.background.alpha = 0
+                    }
+                }
+
+            var onClick: (() -> Unit)? = null
+
+            init {
+
+                itemView.setBackgroundResource(R.drawable.ic_launcher_highlight)
+                itemView.background.alpha = 0
+
+                view.setOnClickListener {
+                    onClick?.invoke()
+                }
+            }
+        }
+
+        inner class ViewHolderHero(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
             val imageViewHero: ImageView = view.findViewById(R.id.imageViewHero)
             val textViewLevel: TextView = view.findViewById(R.id.textViewLevel)
             val textViewDps: TextView = view.findViewById(R.id.textViewDps)
 
+            var selected: Boolean = false
+                set(value) {
+
+                    field = value
+                    if (value) {
+
+                        itemView.background.alpha = 255
+                    } else {
+
+                        itemView.background.alpha = 0
+                    }
+                }
+
+            var onClick: (() -> Unit)? = null
+
             init {
 
-                view.setOnClickListener {
+                itemView.setBackgroundResource(R.drawable.ic_launcher_highlight)
+                itemView.background.alpha = 0
 
-                    parent.children.iterator().forEach { view ->
-                        view.alpha = 0.5f
-                    }
-                    view.alpha = 1f
+                view.setOnClickListener {
+                    onClick?.invoke()
                 }
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
             val layoutInflater: LayoutInflater = context.getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = layoutInflater.inflate(R.layout.recyclerview_row_hero, parent, false)
-            return ViewHolder(view, parent)
+
+            return when (viewType) {
+
+                0 -> {
+
+                    val view = layoutInflater.inflate(R.layout.recyclerview_row_player, parent, false)
+                    ViewHolderPlayer(view, parent)
+                }
+                else -> {
+
+                    val view = layoutInflater.inflate(R.layout.recyclerview_row_hero, parent, false)
+                    ViewHolderHero(view, parent)
+                }
+            }
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-            val hero = heroes[position]
-            holder.imageViewHero.setImageResource(hero.picture)
-            holder.textViewLevel.text = hero.level.toString()
-            holder.textViewDps.text = hero.baseDPS.toString()
+            when (position) {
+
+                0 -> {
+
+                    val holder = holder as ViewHolderPlayer
+                    holder.imageViewPlayer.setImageResource(R.drawable.avatar2)
+                    holder.textViewName.text = player.name
+                    holder.textViewDps.text = player.dps.toString()
+                    holder.onClick = {
+
+                        selectedPosition = position
+                        onClick(holder, position)
+                    }
+                }
+                else -> {
+
+                    val holder = holder as ViewHolderHero
+                    val hero = heroes[position - 1]
+                    holder.imageViewHero.setImageResource(hero.picture)
+                    holder.textViewLevel.text = hero.level.toString()
+                    holder.textViewDps.text = hero.baseDPS.toString()
+                    holder.onClick = {
+
+                        selectedPosition = position
+                        onClick(holder, position)
+                    }
+                }
+            }
         }
 
-        override fun getItemCount(): Int = heroes.size
+        override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+
+            when (holder.adapterPosition) {
+
+                0 -> {
+
+                    val holder = holder as ViewHolderPlayer
+                    holder.selected = holder.adapterPosition == selectedPosition
+                }
+                else -> {
+
+                    val holder = holder as ViewHolderHero
+                    holder.selected = holder.adapterPosition == selectedPosition
+                }
+            }
+        }
+
+        override fun getItemViewType(position: Int): Int = if (position == 0) 0 else 1
+
+        override fun getItemCount(): Int = heroes.size + 1 // +1 for player row
     }
 }
