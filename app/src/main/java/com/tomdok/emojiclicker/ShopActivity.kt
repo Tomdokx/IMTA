@@ -10,6 +10,12 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
+import database.GameDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class ShopActivity : AppCompatActivity() {
 
@@ -44,41 +50,59 @@ class ShopActivity : AppCompatActivity() {
         btnBackToGame.setOnClickListener { goBackToGame() }
         btnUpgrade.setOnClickListener { upgrade() }
 
-        val player = Player("Player1", 1, 100, 90.6)
-        val heroes = listOf(
-            Hero(0, "Hero1",1, 88.6, R.drawable.avatar2),
-            Hero(1, "Hero2",10, 84.5, R.drawable.avatar2),
-            Hero(2, "Hero3",6, 23.3, R.drawable.avatar2),
-            Hero(3, "Hero4",82, 12.3, R.drawable.avatar2),
-        )
+        var optionalPlayer: Player? = null
+        var heroes = listOf<Hero>()
 
-        tVCoins.text = player.tCoins.toString()
+        runBlocking {
 
-        recyclerViewHeroes.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
-            onClick = { holder, selectedPosition ->
+            CoroutineScope(IO).launch {
 
-                for (i in 1 until recyclerViewHeroes.adapter?.itemCount!!) {
+                val databasePlayer: database.Player? = GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
 
-                    val holder = recyclerViewHeroes.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
-                    holder?.selected = false
+                databasePlayer?.let { databasePlayer ->
+
+                    optionalPlayer = Player(databasePlayer.name, databasePlayer.level, databasePlayer.coins, databasePlayer.dps)
+
+                    val databaseHeroes: List<database.Hero> = GameDatabase.getInstance(applicationContext).heroDAO.get("TestPlayer1")
+                    heroes += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 12.0, R.drawable.avatar2)
+                    heroes += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 23.0, R.drawable.avatar2)
+                    heroes += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 45.0, R.drawable.avatar2)
+                    heroes += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 68.0, R.drawable.avatar2)
                 }
 
-                when (selectedPosition) {
+            }.join()
+        }
 
-                    0 -> {
+        optionalPlayer?.let { player ->
 
-                        val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
-                        holder.selected = true
+            tVCoins.text = player.tCoins.toString()
+
+            recyclerViewHeroes.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
+                onClick = { holder, selectedPosition ->
+
+                    for (i in 1 until recyclerViewHeroes.adapter?.itemCount!!) {
+
+                        val holder = recyclerViewHeroes.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
+                        holder?.selected = false
                     }
-                    else -> {
 
-                        val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
-                        holder.selected = true
-                        val playerHolder: ShopRecyclerViewAdapter.ViewHolderPlayer? = recyclerViewHeroes.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
-                        playerHolder?.selected = false
+                    when (selectedPosition) {
+
+                        0 -> {
+
+                            val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
+                            holder.selected = true
+                        }
+                        else -> {
+
+                            val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
+                            holder.selected = true
+                            val playerHolder = recyclerViewHeroes.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
+                            playerHolder?.selected = false
+                        }
                     }
-                }
-        })
+                })
+        } ?: return
     }
 
     private fun upgrade() {

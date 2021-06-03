@@ -4,6 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import database.GameDatabase
+import database.Hero
+import database.Player
+import database.Settings
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,6 +53,21 @@ class MainActivity : AppCompatActivity() {
         btnToInfo.setOnClickListener { goToActivity(3) }
         btnToSettings.setOnClickListener { goToActivity(4) }
         btnQuit.setOnClickListener { quitTheGame() }
+
+        // temporary
+        if (false) {
+
+            CoroutineScope(IO).launch {
+                GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer1", 56, 12, 15.6))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(0, 1, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(1, 0, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(2, 0, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(3, 0, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).settingsDAO.insert(Settings(0, true, "TestPlayer1"))
+                val player = Player("TestPlayer1", 54, 1532, 78.6)
+                GameDatabase.getInstance(applicationContext).playerDAO.update(player)
+            }
+        }
     }
 
     private fun quitTheGame() {
