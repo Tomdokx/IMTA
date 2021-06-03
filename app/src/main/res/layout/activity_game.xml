@@ -54,14 +54,16 @@
 
     <ImageButton
         android:id="@+id/ibtnMonster"
-        android:layout_width="347dp"
-        android:layout_height="274dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:background="@drawable/ic_launcher_emote_background"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintCircleRadius="@android:dimen/app_icon_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar2"
-        tools:srcCompat="@drawable/avatar2" />
+        app:srcCompat="@drawable/monkas"
+        tools:srcCompat="@drawable/monkas" />
 
     <TextView
         android:id="@+id/tvTCoinsGame"
