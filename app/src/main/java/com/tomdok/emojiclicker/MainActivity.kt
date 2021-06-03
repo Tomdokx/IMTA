@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         val intentToActivity = Intent()
 
-        when (act){
+        when (act) {
             1 -> intentToActivity.setClass(this,GameActivity::class.java)
             2 -> intentToActivity.setClass(this,RecordActivity::class.java)
             3 -> intentToActivity.setClass(this,InfoActivity::class.java)
