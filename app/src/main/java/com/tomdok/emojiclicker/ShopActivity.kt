@@ -1,11 +1,7 @@
 package com.tomdok.emojiclicker
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.tomdok.emojiclicker.classes.Hero
@@ -13,26 +9,25 @@ import com.tomdok.emojiclicker.classes.Player
 import database.GameDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ShopActivity : AppCompatActivity() {
 
-    private val btnUpgrade by lazy {
-        findViewById<Button>(R.id.btnUpgrade)
+    private val buttonUpgrade by lazy {
+        findViewById<Button>(R.id.shop_buttonUpgrade)
     }
 
-    private val btnBackToGame by lazy {
-        findViewById<Button>(R.id.btnBackToGame)
+    private val buttonBack by lazy {
+        findViewById<Button>(R.id.shop_buttonBack)
     }
 
-    private val tVCoins by lazy {
-        findViewById<TextView>(R.id.tvTCoins)
+    private val textViewCoins by lazy {
+        findViewById<TextView>(R.id.shop_textViewCoins)
     }
 
-    private val recyclerViewHeroes by lazy {
-        findViewById<RecyclerView>(R.id.recyclerViewHeroes)
+    private val recyclerView by lazy {
+        findViewById<RecyclerView>(R.id.shop_recyclerView)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,8 +42,8 @@ class ShopActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_shop)
 
-        btnBackToGame.setOnClickListener { goBackToGame() }
-        btnUpgrade.setOnClickListener { upgrade() }
+        buttonBack.setOnClickListener { goBackToGame() }
+        buttonUpgrade.setOnClickListener { upgrade() }
 
         var optionalPlayer: Player? = null
         var heroes = listOf<Hero>()
@@ -75,14 +70,14 @@ class ShopActivity : AppCompatActivity() {
 
         optionalPlayer?.let { player ->
 
-            tVCoins.text = player.tCoins.toString()
+            textViewCoins.text = player.tCoins.toString()
 
-            recyclerViewHeroes.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
+            recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
                 onClick = { holder, selectedPosition ->
 
-                    for (i in 1 until recyclerViewHeroes.adapter?.itemCount!!) {
+                    for (i in 1 until recyclerView.adapter?.itemCount!!) {
 
-                        val holder = recyclerViewHeroes.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
+                        val holder = recyclerView.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
                         holder?.selected = false
                     }
 
@@ -97,7 +92,7 @@ class ShopActivity : AppCompatActivity() {
 
                             val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
                             holder.selected = true
-                            val playerHolder = recyclerViewHeroes.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
+                            val playerHolder = recyclerView.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
                             playerHolder?.selected = false
                         }
                     }

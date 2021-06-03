@@ -7,7 +7,7 @@
     tools:context=".ShopActivity">
 
     <TextView
-        android:id="@+id/tvTCoins"
+        android:id="@+id/shop_textViewCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewHeroes"
+        android:id="@+id/shop_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="40dp"
@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTCoins"
+        app:layout_constraintTop_toBottomOf="@+id/shop_textViewCoins"
         app:layout_constraintVertical_bias="1.0"
         tools:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
@@ -45,14 +45,14 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/iVAbility"
+            android:id="@+id/shop_imageViewAbility"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/avatar2" />
 
         <TextView
-            android:id="@+id/tVAbility"
+            android:id="@+id/shop_textViewAbility"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btnUpgrade"
+            android:id="@+id/shop_buttonUpgrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -79,7 +79,7 @@
             android:text="Upgrade" />
 
         <Button
-            android:id="@+id/btnBackToGame"
+            android:id="@+id/shop_buttonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
