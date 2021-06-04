@@ -67,7 +67,7 @@
 
     <TextView
         android:id="@+id/tvTCoinsGame"
-        android:layout_width="14dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center_vertical|center_horizontal"
@@ -111,5 +111,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame" />
+
+    <TextView
+        android:id="@+id/tVEmoteHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="xxx"
+        app:layout_constraintBottom_toTopOf="@+id/viewHPBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
