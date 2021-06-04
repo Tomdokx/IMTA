@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class Player (
 
     @PrimaryKey val name: String,
+    @ColumnInfo val level: Int,
     @ColumnInfo val coins: Int,
-    @ColumnInfo val dps: Float
+    @ColumnInfo val dps: Double
 )

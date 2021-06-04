@@ -22,9 +22,9 @@ class ShopRecyclerViewAdapter(
 
     inner class ViewHolderPlayer(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
-        val imageViewPlayer: ImageView = view.findViewById(R.id.imageViewPlayer)
-        val textViewName: TextView = view.findViewById(R.id.recyclerview_row_player_textViewName)
-        val textViewLevel: TextView = view.findViewById(R.id.recyclerview_row_player_textViewLevel)
+        val imageViewPlayer: ImageView = view.findViewById(R.id.shop_row_player_imageView)
+        val textViewName: TextView = view.findViewById(R.id.shop_row_player_textViewName)
+        val textViewLevel: TextView = view.findViewById(R.id.shop_row_player_textViewLevel)
 
         var selected: Boolean = false
             set(value) {
@@ -55,9 +55,9 @@ class ShopRecyclerViewAdapter(
 
     inner class ViewHolderHero(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 
-        val imageViewHero: ImageView = view.findViewById(R.id.imageViewHero)
-        val textViewName: TextView = view.findViewById(R.id.recyclerview_row_hero_textViewName)
-        val textViewLevel: TextView = view.findViewById(R.id.recyclerview_row_player_textViewLevel)
+        val imageViewHero: ImageView = view.findViewById(R.id.shop_row_hero_imageView)
+        val textViewName: TextView = view.findViewById(R.id.shop_row_hero_textViewName)
+        val textViewLevel: TextView = view.findViewById(R.id.shop_row_player_textViewLevel)
 
         var selected: Boolean = false
             set(value) {
