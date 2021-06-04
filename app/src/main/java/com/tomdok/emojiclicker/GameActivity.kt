@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.tomdok.emojiclicker.classes.Biome
 import com.tomdok.emojiclicker.classes.Emote
@@ -15,6 +16,10 @@ import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
+
+    private val iVBoss by lazy{
+        findViewById<ImageView>(R.id.iVBoss)
+    }
 
     private val btnToShop by lazy {
         findViewById<Button>(R.id.btnShop)
@@ -116,6 +121,8 @@ class GameActivity : AppCompatActivity() {
         tVEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
         widthHPBar = viewHP.layoutParams.width
         tVLevel.text = currentIdEmote.toString()
+
+        iVBoss.setImageResource(R.drawable.emote_kekw)
     }
 
     private fun doDpsClick() {
