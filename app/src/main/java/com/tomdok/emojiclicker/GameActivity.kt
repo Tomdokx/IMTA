@@ -1,66 +1,71 @@
 package com.tomdok.emojiclicker
 
+import android.app.Activity
 import android.content.Intent
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import com.tomdok.emojiclicker.classes.Biome
+import androidx.appcompat.app.AppCompatActivity
 import com.tomdok.emojiclicker.classes.Emote
+import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
-import kotlinx.coroutines.runBlocking
+import database.GameDatabase
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
 
-    private val iVBoss by lazy{
+    //TO-DO rename val of components
+
+    private val imageViewBoss by lazy {
         findViewById<ImageView>(R.id.iVBoss)
     }
 
-    private val btnToShop by lazy {
+    private val buttonToShop by lazy {
         findViewById<Button>(R.id.btnShop)
     }
 
-    private val btnAbility by lazy {
+    private val buttonAbility by lazy {
         findViewById<Button>(R.id.btnAbility)
     }
 
-    private val btnToMenu by lazy {
+    private val buttonMenu by lazy {
         findViewById<Button>(R.id.btnMenu)
     }
 
-    private val iBtnEmote by lazy {
+    private val imageButtonEmote by lazy {
         findViewById<ImageButton>(R.id.ibtnMonster)
     }
 
-    private val tVCoins by lazy{
+    private val tVCoins by lazy {
         findViewById<TextView>(R.id.tvTCoinsGame)
     }
 
-    private val tVEmoteHP by lazy{
+    private val tVEmoteHP by lazy {
         findViewById<TextView>(R.id.tVEmoteHP)
     }
 
-    private val viewHP by lazy{
+    private val viewHP by lazy {
         findViewById<View>(R.id.viewHPBar)
     }
 
-    private val tVLevel by lazy{
+    private val textViewLevel by lazy {
         findViewById<TextView>(R.id.tvLevel)
     }
 
-    private var tCoins = 0.0
+    private var tCoins = 0
 
     private val rnd = Random(8654231597)
 
     private var currentIdEmote = 1
 
-    private val player = Player("Player",5,500,3.14)
+    private var player: Player = Player("xx",0,0,22.2)
     private var emoteList = listOf<Emote>()
+    private var heroList = listOf<Hero>()
 
     private var widthHPBar = 0
 
@@ -77,11 +82,13 @@ class GameActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_game)
 
-        btnToMenu.setOnClickListener { goToMenuActivity() }
-        btnToShop.setOnClickListener { goToShopActivity() }
-        btnAbility.setOnClickListener { doAbility() }
+        loadData()
 
-        iBtnEmote.setOnClickListener { doDpsClick() }
+        buttonMenu.setOnClickListener { goToMenuActivity() }
+        buttonToShop.setOnClickListener { goToShopActivity() }
+        buttonAbility.setOnClickListener { doAbility() }
+
+        imageButtonEmote.setOnClickListener { doDpsClick() }
 
         emoteList = listOf<Emote>(
             Emote(1, "monkaS", 20.0, R.drawable.emote_monkas),
@@ -114,20 +121,51 @@ class GameActivity : AppCompatActivity() {
             Emote(28, "WeirdChamp", 600.0, R.drawable.emote_weirdchamp),
             Emote(29, "MLADY", 650.0, R.drawable.emote_mlady),
             Emote(30, "peepoHey", 700.0, R.drawable.emote_peepohey),
-            Emote(31, "BOSS KEKW", 1250.5, R.drawable.emote_kekw)
+            Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
         )
 
-        iBtnEmote.setImageResource(emoteList[currentIdEmote].picture)
+        imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
         tVEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
         widthHPBar = viewHP.layoutParams.width
-        tVLevel.text = currentIdEmote.toString()
+        textViewLevel.text = currentIdEmote.toString()
 
-        iVBoss.setImageResource(R.drawable.emote_kekw)
+        imageViewBoss.setImageResource(R.drawable.emote_kekw)
+
+        showTCoins()
+    }
+
+    private fun loadData() {
+        var optionalPlayer: Player? = null
+
+        runBlocking {
+
+            CoroutineScope(IO).launch {
+
+                val databasePlayer: database.Player? = GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
+
+
+                databasePlayer?.let { databasePlayer ->
+
+                    optionalPlayer = Player(databasePlayer.name, databasePlayer.level, databasePlayer.coins, databasePlayer.dps)
+                    val databaseHeroes: List<database.Hero> = GameDatabase.getInstance(applicationContext).heroDAO.get("TestPlayer1")
+                    heroList += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 2.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 3.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 5.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 8.0, R.drawable.avatar2)
+                }
+            }.join()
+        }
+
+        if (optionalPlayer != null) {
+
+            player = optionalPlayer!!
+            tCoins = player.tCoins
+        }
+
+        showTCoins()
     }
 
     private fun doDpsClick() {
-
-    var tCoinsShow: String = ""
 
     player.clickAndDoDps(emoteList[currentIdEmote])
 
@@ -140,50 +178,83 @@ class GameActivity : AppCompatActivity() {
 
     tCoins += rnd.nextInt(2,5)
 
+        showTCoins()
+
+        var ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
+        if (ratio <= 0.0){
+
+            ratio = 0.01
+        }
+        viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
+    }
+
+    private fun showTCoins() {
+
+        var tCoinsShow: String = ""
+
         if (tCoins/1000 >= 1) {
 
-            if (tCoins > Double.MAX_VALUE){
+            if (tCoins > Int.MAX_VALUE){
+
                 tCoinsShow += "XXX"
             }
 
             else if (tCoins / 1000000000 >= 1) {
 
-                tCoinsShow += "%.2f B".format(tCoins / 1000000000)
+                tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
             } else if (tCoins / 1000000 >= 1) {
 
-                tCoinsShow += "%.2f M".format(tCoins / 1000000)
+                tCoinsShow += "%.2f M".format(tCoins / 1000000.0)
             } else {
 
-                tCoinsShow += "%.2f K".format(tCoins / 1000)
+                tCoinsShow += "%.2f K".format(tCoins / 1000.0)
             }
         }else{
 
-            tCoinsShow += tCoins.toInt().toString()
+            tCoinsShow += tCoins.toString()
         }
 
         tVCoins.text = tCoinsShow
-
-        val ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
-        viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
     }
 
     private fun changeEmote() {
 
         currentIdEmote += 1
-        iBtnEmote.setImageResource(emoteList[currentIdEmote].picture)
-        tVLevel.text = currentIdEmote.toString()
+        imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
+        textViewLevel.text = currentIdEmote.toString()
     }
 
     private fun goToShopActivity() {
+
+        saveData()
 
         val intent = Intent(this,ShopActivity::class.java)
 
         startActivity(intent)
     }
 
+    override fun onResume() {
+
+        super.onResume()
+        loadData()
+    }
+
+    private fun saveData() {
+        player.tCoins = tCoins
+
+        runBlocking {
+
+            CoroutineScope(IO).launch {
+
+                val playerUpdate = database.Player(player.name,player.level,player.tCoins,player.dps)
+                GameDatabase.getInstance(applicationContext).playerDAO.update(playerUpdate)
+            }.join()
+        }
+    }
+
     private fun goToMenuActivity() {
 
-        // uložení do databáze? ? ?
+        saveData()
 
         finish()
     }

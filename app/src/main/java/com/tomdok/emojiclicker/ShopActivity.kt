@@ -1,5 +1,7 @@
 package com.tomdok.emojiclicker
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -11,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import android.widget.Toast
 
 class ShopActivity : AppCompatActivity() {
 
@@ -30,6 +33,11 @@ class ShopActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.shop_recyclerView)
     }
 
+    private var tCoins = 0
+
+    var optionalPlayer: Player? = null
+    var heroes = listOf<Hero>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -43,10 +51,6 @@ class ShopActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shop)
 
         buttonBack.setOnClickListener { goBackToGame() }
-        buttonUpgrade.setOnClickListener { upgrade() }
-
-        var optionalPlayer: Player? = null
-        var heroes = listOf<Hero>()
 
         runBlocking {
 
@@ -70,9 +74,9 @@ class ShopActivity : AppCompatActivity() {
 
         optionalPlayer?.let { player ->
 
-            textViewCoins.text = player.tCoins.toString()
+            tCoins = player.tCoins
 
-            recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
+            recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, optionalPlayer!!,
                 onClick = { holder, selectedPosition ->
 
                     for (i in 1 until recyclerView.adapter?.itemCount!!) {
@@ -96,17 +100,89 @@ class ShopActivity : AppCompatActivity() {
                             playerHolder?.selected = false
                         }
                     }
+
+                    buttonUpgrade.setOnClickListener { upgrade(selectedPosition) }
                 })
         } ?: return
+
+        showTCoins()
     }
 
-    private fun upgrade() {
+    private fun upgrade(selectedPosition: Int) {
 
-        TODO("Not yet implemented")
+        if (optionalPlayer != null && heroes.isNotEmpty()) {
+
+            when (selectedPosition) {
+                0 -> {
+
+                    optionalPlayer!!.level += 1
+                    optionalPlayer!!.dps += 5.0
+                    tCoins -= 50
+                }
+                else -> {
+
+                    heroes[selectedPosition - 1].level += 1
+                    tCoins -= 20
+                }
+            }
+        }
+
+        showTCoins()
     }
+
 
     private fun goBackToGame() {
 
+        saveData()
+
         finish()
+    }
+
+    private fun saveData() {
+        optionalPlayer!!.tCoins = tCoins
+
+        runBlocking {
+
+            CoroutineScope(IO).launch {
+
+                val playerUpdate = database.Player(optionalPlayer!!.name,optionalPlayer!!.level,optionalPlayer!!.tCoins,optionalPlayer!!.dps)
+                GameDatabase.getInstance(applicationContext).playerDAO.update(playerUpdate)
+
+                for(hero in heroes){
+
+                    val heroUpdate = database.Hero(hero.id,hero.level,optionalPlayer!!.name)
+                    GameDatabase.getInstance(applicationContext).heroDAO.update(heroUpdate)
+                }
+
+            }.join()
+        }
+    }
+
+    private fun showTCoins() {
+
+        var tCoinsShow: String = ""
+
+        if (tCoins/1000 >= 1) {
+
+            if (tCoins > Double.MAX_VALUE){
+                tCoinsShow += "XXX"
+            }
+
+            else if (tCoins / 1000000000 >= 1) {
+
+                tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
+            } else if (tCoins / 1000000 >= 1) {
+
+                tCoinsShow += "%.2f M".format(tCoins / 1000000.0)
+            } else {
+
+                tCoinsShow += "%.2f K".format(tCoins / 1000.0)
+            }
+        }else{
+
+            tCoinsShow += tCoins.toString()
+        }
+
+        textViewCoins.text = tCoinsShow
     }
 }

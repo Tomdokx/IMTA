@@ -53,15 +53,15 @@ class MainActivity : AppCompatActivity() {
         btnQuit.setOnClickListener { quitTheGame() }
 
         // temporary
-        if (false) {
+        if(false){
 
             CoroutineScope(IO).launch {
                 GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer1", 56, 12, 15.6))
                 GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer2", 56, 12, 15.6))
-                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(0, 1, "TestHero1"))
-                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(1, 0, "TestHero2"))
-                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(2, 0, "TestHero3"))
-                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(3, 0, "TestHero4"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(0, 1, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(1, 0, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(2, 0, "TestPlayer1"))
+                GameDatabase.getInstance(applicationContext).heroDAO.insert(Hero(3, 0, "TestPlayer1"))
                 GameDatabase.getInstance(applicationContext).settingsDAO.insert(Settings(0, true, "TestPlayer1"))
                 val player = Player("TestPlayer1", 54, 1532, 78.6)
                 GameDatabase.getInstance(applicationContext).playerDAO.update(player)
@@ -74,6 +74,14 @@ class MainActivity : AppCompatActivity() {
                 GameDatabase.getInstance(applicationContext).recordDAO.insert(Record(null, Timestamp(System.currentTimeMillis()), 15, "TestPlayer2"))
                 GameDatabase.getInstance(applicationContext).recordDAO.insert(Record(null, Timestamp(System.currentTimeMillis()), 47, "TestPlayer2"))
             }
+        }
+        CoroutineScope(IO).launch {
+            val player = Player("TestPlayer1", 2, 15, 10.0)
+            GameDatabase.getInstance(applicationContext).playerDAO.update(player)
+            GameDatabase.getInstance(applicationContext).heroDAO.update(Hero(0, 1, "TestPlayer1"))
+            GameDatabase.getInstance(applicationContext).heroDAO.update(Hero(1, 0, "TestPlayer1"))
+            GameDatabase.getInstance(applicationContext).heroDAO.update(Hero(2, 0, "TestPlayer1"))
+            GameDatabase.getInstance(applicationContext).heroDAO.update(Hero(3, 0, "TestPlayer1"))
         }
     }
 
