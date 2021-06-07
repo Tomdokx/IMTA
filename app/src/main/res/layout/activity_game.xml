@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btnShop"
+            android:id="@+id/game_buttonShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -24,7 +24,7 @@
             android:text="Shop" />
 
         <Button
-            android:id="@+id/btnAbility"
+            android:id="@+id/game_buttonAbility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,7 +32,7 @@
             android:text="Ability" />
 
         <Button
-            android:id="@+id/btnMenu"
+            android:id="@+id/game_buttonMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/iVBoss"
+        android:id="@+id/game_imageViewBoss"
         android:layout_width="87dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
@@ -53,7 +53,7 @@
         tools:srcCompat="@drawable/avatar2" />
 
     <ImageButton
-        android:id="@+id/ibtnMonster"
+        android:id="@+id/game_imageButtonEmote"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:background="@drawable/ic_launcher_emote_background"
@@ -66,7 +66,7 @@
         tools:srcCompat="@drawable/emote_feelsgoodman" />
 
     <TextView
-        android:id="@+id/tvTCoinsGame"
+        android:id="@+id/game_textViewTCoins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvLevel"
+        android:id="@+id/game_textViewLevel"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="16dp"
@@ -91,33 +91,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/viewHPBar"
+        android:id="@+id/game_viewHPBar"
         android:layout_width="182dp"
         android:layout_height="18dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/ic_launcher_hp_bar"
-        app:layout_constraintBottom_toTopOf="@+id/ibtnMonster"
+        app:layout_constraintBottom_toTopOf="@+id/game_imageButtonEmote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame" />
+        app:layout_constraintTop_toBottomOf="@+id/game_textViewTCoins" />
 
     <View
-        android:id="@+id/viewHPBarBack"
+        android:id="@+id/game_viewHPBarBack"
         android:layout_width="182dp"
         android:layout_height="18dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/ic_launcher_hp_bar_back"
-        app:layout_constraintBottom_toTopOf="@+id/ibtnMonster"
+        app:layout_constraintBottom_toTopOf="@+id/game_imageButtonEmote"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTCoinsGame" />
+        app:layout_constraintTop_toBottomOf="@+id/game_textViewTCoins" />
 
     <TextView
-        android:id="@+id/tVEmoteHP"
+        android:id="@+id/game_textViewEmoteHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="xxx"
-        app:layout_constraintBottom_toTopOf="@+id/viewHPBar"
+        app:layout_constraintBottom_toTopOf="@+id/game_viewHPBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

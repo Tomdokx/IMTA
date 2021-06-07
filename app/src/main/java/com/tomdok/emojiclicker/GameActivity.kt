@@ -1,6 +1,5 @@
 package com.tomdok.emojiclicker
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,42 +18,47 @@ import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
 
-    //TO-DO rename val of components
+    //TO DO balance heroes / emotes
+    //animations of doDMG and switching emotes
+    //Ability?? New class or 2 new attributes in Hero?
+    //Carry the end
+    //Refresh data in recyclerview in Shop
+    //Finally do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that)
 
     private val imageViewBoss by lazy {
-        findViewById<ImageView>(R.id.iVBoss)
+        findViewById<ImageView>(R.id.game_imageViewBoss)
     }
 
     private val buttonToShop by lazy {
-        findViewById<Button>(R.id.btnShop)
+        findViewById<Button>(R.id.game_buttonShop)
     }
 
     private val buttonAbility by lazy {
-        findViewById<Button>(R.id.btnAbility)
+        findViewById<Button>(R.id.game_buttonAbility)
     }
 
     private val buttonMenu by lazy {
-        findViewById<Button>(R.id.btnMenu)
+        findViewById<Button>(R.id.game_buttonMenu)
     }
 
     private val imageButtonEmote by lazy {
-        findViewById<ImageButton>(R.id.ibtnMonster)
+        findViewById<ImageButton>(R.id.game_imageButtonEmote)
     }
 
-    private val tVCoins by lazy {
-        findViewById<TextView>(R.id.tvTCoinsGame)
+    private val textViewCoins by lazy {
+        findViewById<TextView>(R.id.game_textViewTCoins)
     }
 
-    private val tVEmoteHP by lazy {
-        findViewById<TextView>(R.id.tVEmoteHP)
+    private val textViewEmoteHP by lazy {
+        findViewById<TextView>(R.id.game_textViewEmoteHP)
     }
 
     private val viewHP by lazy {
-        findViewById<View>(R.id.viewHPBar)
+        findViewById<View>(R.id.game_viewHPBar)
     }
 
     private val textViewLevel by lazy {
-        findViewById<TextView>(R.id.tvLevel)
+        findViewById<TextView>(R.id.game_textViewLevel)
     }
 
     private var tCoins = 0
@@ -68,6 +72,9 @@ class GameActivity : AppCompatActivity() {
     private var heroList = listOf<Hero>()
 
     private var widthHPBar = 0
+    private var finished = false
+
+    var heroesDoingDmg = mutableListOf<Job?>(null,null,null,null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -125,33 +132,110 @@ class GameActivity : AppCompatActivity() {
         )
 
         imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
-        tVEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
+        textViewEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
         widthHPBar = viewHP.layoutParams.width
         textViewLevel.text = currentIdEmote.toString()
 
         imageViewBoss.setImageResource(R.drawable.emote_kekw)
 
         showTCoins()
+
+        doHeroDmg()
+    }
+
+    private fun doHeroDmg() {
+
+            heroesDoingDmg[0] = GlobalScope.launch {
+
+                while (!finished) {
+
+                    runBlocking {
+
+                        if(heroList[0].level > 0) {
+
+                            heroList[0].doDamage(emoteList[currentIdEmote])
+                            tCoins += rnd.nextInt(2, 5)
+                            refreshHPBar()
+                        }
+                    }
+
+                    delay(4500)
+                }
+            }
+
+
+            heroesDoingDmg[1] = GlobalScope.launch {
+
+                while (!finished) {
+
+                    runBlocking {
+
+                        if(heroList[1].level > 0){
+
+                            heroList[1].doDamage(emoteList[currentIdEmote])
+                            tCoins += rnd.nextInt(2,5)
+                            refreshHPBar()
+                        }
+                    }
+
+                    delay(5150)
+                }
+            }
+
+            heroesDoingDmg[2] = GlobalScope.launch {
+
+                while (!finished) {
+
+                    runBlocking {
+
+                        if(heroList[2].level > 0) {
+
+                            heroList[2].doDamage(emoteList[currentIdEmote])
+                            tCoins += rnd.nextInt(2, 5)
+                            refreshHPBar()
+                        }
+                    }
+
+                    delay(7010)
+                }
+            }
+
+            heroesDoingDmg[3] = GlobalScope.launch {
+
+                while (!finished) {
+
+                    runBlocking {
+
+                        if(heroList[3].level > 0) {
+
+                            heroList[3].doDamage(emoteList[currentIdEmote])
+                            tCoins += rnd.nextInt(2, 5)
+                            refreshHPBar()
+                        }
+                    }
+
+                    delay(9111)
+                }
+            }
     }
 
     private fun loadData() {
         var optionalPlayer: Player? = null
-
+        heroList = listOf<Hero>()
         runBlocking {
 
             CoroutineScope(IO).launch {
 
                 val databasePlayer: database.Player? = GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
 
-
                 databasePlayer?.let { databasePlayer ->
 
                     optionalPlayer = Player(databasePlayer.name, databasePlayer.level, databasePlayer.coins, databasePlayer.dps)
                     val databaseHeroes: List<database.Hero> = GameDatabase.getInstance(applicationContext).heroDAO.get("TestPlayer1")
-                    heroList += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 2.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 3.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 5.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 8.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 3.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 8.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 11.0, R.drawable.avatar2)
+                    heroList += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 15.0, R.drawable.avatar2)
                 }
             }.join()
         }
@@ -165,27 +249,43 @@ class GameActivity : AppCompatActivity() {
         showTCoins()
     }
 
-    private fun doDpsClick() {
 
-    player.clickAndDoDps(emoteList[currentIdEmote])
+    private fun refreshHPBar() {
 
-    if (emoteList[currentIdEmote].currentHp < 0){
+            runOnUiThread(Runnable {
 
-        changeEmote()
+                if (emoteList[currentIdEmote].currentHp < 0){
+
+                    changeEmote()
+                }
+
+                textViewEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
+
+                tCoins += rnd.nextInt(2,5)
+
+                showTCoins()
+
+                var ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
+                if (ratio <= 0.0){
+
+                    ratio = 0.01
+                }
+
+                viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
+            })
     }
 
-        tVEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
+    private fun doDpsClick() {
 
-    tCoins += rnd.nextInt(2,5)
+        player.clickAndDoDps(emoteList[currentIdEmote])
 
-        showTCoins()
+        GlobalScope.launch {
 
-        var ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
-        if (ratio <= 0.0){
+            runBlocking {
 
-            ratio = 0.01
+                refreshHPBar()
+            }
         }
-        viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
     }
 
     private fun showTCoins() {
@@ -214,14 +314,33 @@ class GameActivity : AppCompatActivity() {
             tCoinsShow += tCoins.toString()
         }
 
-        tVCoins.text = tCoinsShow
+        textViewCoins.text = tCoinsShow
     }
 
     private fun changeEmote() {
 
+        if (currentIdEmote == emoteList.size){
+
+            endTheGame()
+        }
+        else{
+
         currentIdEmote += 1
         imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
         textViewLevel.text = currentIdEmote.toString()
+        }
+    }
+
+    private fun endTheGame() {
+
+        for(heroDoingDmg in heroesDoingDmg){
+
+            heroDoingDmg?.cancel()
+        }
+
+        //TODO save data to database
+        //TODO refresh data to begin (level 1 to everything)
+        finish()
     }
 
     private fun goToShopActivity() {
@@ -237,6 +356,13 @@ class GameActivity : AppCompatActivity() {
 
         super.onResume()
         loadData()
+
+        for(heroDoingDmg in heroesDoingDmg){
+
+            heroDoingDmg?.cancel()
+        }
+
+        doHeroDmg()
     }
 
     private fun saveData() {
