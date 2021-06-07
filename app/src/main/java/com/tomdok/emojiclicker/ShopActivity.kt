@@ -101,27 +101,33 @@ class ShopActivity : AppCompatActivity() {
                         }
                     }
 
-                    buttonUpgrade.setOnClickListener { upgrade(selectedPosition) }
+                    buttonUpgrade.setOnClickListener { upgrade(selectedPosition, holder) }
                 })
         } ?: return
 
         showTCoins()
     }
 
-    private fun upgrade(selectedPosition: Int) {
+    private fun upgrade(selectedPosition: Int, holder: RecyclerView.ViewHolder) {
 
         if (optionalPlayer != null && heroes.isNotEmpty()) {
 
             when (selectedPosition) {
+
                 0 -> {
 
+                    val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
                     optionalPlayer!!.level += 1
                     optionalPlayer!!.dps += 5.0
                     tCoins -= 50
+                    holder.textViewLevel.text = optionalPlayer?.level.toString()
                 }
+
                 else -> {
 
+                    val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
                     heroes[selectedPosition - 1].level += 1
+                    holder.textViewLevel.text = heroes[selectedPosition - 1].level.toString()
                     tCoins -= 20
                 }
             }
