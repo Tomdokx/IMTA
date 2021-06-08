@@ -18,12 +18,17 @@ import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
 
-    //TO DO balance heroes / emotes
-    //animations of doDMG and switching emotes
-    //Ability?? New class or 2 new attributes in Hero?
-    //Carry the end
-    //Refresh data in recyclerview in Shop
-    //Finally do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that)
+    //TO DO balance heroes / emotes -- LAST THINGY
+    //animations of doDMG and switching emotes -- +/-
+    //Ability?? New class or 2 new attributes in Hero? -- ???
+
+    //Finally do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that) -- Pepek thingy
+
+    //Price upgrade + not able to buy upgrade without the amount of TCoins --  +/- DONE
+    //Need to handle info about upgrade price
+
+    //After switching activity, heroes still do dmg? -- NO
+    //TO DO add Record into the database in End Activity
 
     private val imageViewBoss by lazy {
         findViewById<ImageView>(R.id.game_imageViewBoss)
@@ -156,6 +161,11 @@ class GameActivity : AppCompatActivity() {
                             heroList[0].doDamage(emoteList[currentIdEmote])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
+                            if (currentIdEmote == emoteList.size -1){
+
+                                finished = true
+                                endTheGame()
+                            }
                         }
                     }
 
@@ -175,6 +185,12 @@ class GameActivity : AppCompatActivity() {
                             heroList[1].doDamage(emoteList[currentIdEmote])
                             tCoins += rnd.nextInt(2,5)
                             refreshHPBar()
+
+                            if (currentIdEmote == emoteList.size -1){
+
+                                finished = true
+                                endTheGame()
+                            }
                         }
                     }
 
@@ -193,6 +209,12 @@ class GameActivity : AppCompatActivity() {
                             heroList[2].doDamage(emoteList[currentIdEmote])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
+
+                            if (currentIdEmote == emoteList.size -1){
+
+                                finished = true
+                                endTheGame()
+                            }
                         }
                     }
 
@@ -211,6 +233,12 @@ class GameActivity : AppCompatActivity() {
                             heroList[3].doDamage(emoteList[currentIdEmote])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
+
+                            if (currentIdEmote == emoteList.size -1){
+
+                                finished = true
+                                endTheGame()
+                            }
                         }
                     }
 
@@ -254,7 +282,7 @@ class GameActivity : AppCompatActivity() {
 
             runOnUiThread(Runnable {
 
-                if (emoteList[currentIdEmote].currentHp < 0){
+                if (emoteList[currentIdEmote].currentHp < 0 && currentIdEmote < emoteList.size -1) {
 
                     changeEmote()
                 }
@@ -266,7 +294,7 @@ class GameActivity : AppCompatActivity() {
                 showTCoins()
 
                 var ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
-                if (ratio <= 0.0){
+                if (ratio <= 0.0) {
 
                     ratio = 0.01
                 }
@@ -284,6 +312,12 @@ class GameActivity : AppCompatActivity() {
             runBlocking {
 
                 refreshHPBar()
+
+                if (currentIdEmote == emoteList.size -1){
+
+                    finished = true
+                    endTheGame()
+                }
             }
         }
     }
@@ -319,27 +353,17 @@ class GameActivity : AppCompatActivity() {
 
     private fun changeEmote() {
 
-        if (currentIdEmote == emoteList.size){
-
-            endTheGame()
-        }
-        else{
-
         currentIdEmote += 1
         imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
         textViewLevel.text = currentIdEmote.toString()
-        }
+
     }
 
     private fun endTheGame() {
 
-        for(heroDoingDmg in heroesDoingDmg){
+        val intent = Intent(this, EndActivity::class.java)
+        startActivity(intent)
 
-            heroDoingDmg?.cancel()
-        }
-
-        //TODO save data to database
-        //TODO refresh data to begin (level 1 to everything)
         finish()
     }
 
@@ -357,11 +381,6 @@ class GameActivity : AppCompatActivity() {
         super.onResume()
         loadData()
 
-        for(heroDoingDmg in heroesDoingDmg){
-
-            heroDoingDmg?.cancel()
-        }
-
         doHeroDmg()
     }
 
@@ -375,6 +394,11 @@ class GameActivity : AppCompatActivity() {
                 val playerUpdate = database.Player(player.name,player.level,player.tCoins,player.dps)
                 GameDatabase.getInstance(applicationContext).playerDAO.update(playerUpdate)
             }.join()
+        }
+
+        for(heroDoingDmg in heroesDoingDmg){
+
+            heroDoingDmg?.cancel()
         }
     }
 

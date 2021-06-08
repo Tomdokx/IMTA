@@ -116,6 +116,12 @@ class ShopActivity : AppCompatActivity() {
 
                 0 -> {
 
+                    if (tCoins < 50) {
+
+                        buttonUpgrade.isClickable = false
+                        return
+                    }
+
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
                     optionalPlayer!!.level += 1
                     optionalPlayer!!.dps += 5.0
@@ -124,6 +130,11 @@ class ShopActivity : AppCompatActivity() {
                 }
 
                 else -> {
+
+                    if (tCoins < 20){
+                        buttonUpgrade.isClickable = false
+                        return
+                    }
 
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
                     heroes[selectedPosition - 1].level += 1
