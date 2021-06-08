@@ -8,29 +8,38 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="273dp"
-        android:layout_height="446dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.534">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btnGame"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:drawableLeft="@drawable/console"
             android:text="Game"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnRecords"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:drawableLeft="@drawable/podium"
             android:text="Records"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@+id/btnSettings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,20 +47,29 @@
 
         <Button
             android:id="@+id/btnSettings"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:drawableLeft="@drawable/settings"
             android:text="Settings"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.515"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnAbout"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:drawableLeft="@drawable/information"
             android:text="About"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@+id/btnQuit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,9 +77,14 @@
 
         <Button
             android:id="@+id/btnQuit"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:drawableLeft="@drawable/back_arrow"
             android:text="Quit"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -72,11 +95,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MENU"
+        android:textSize="20dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textView2"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ShopActivity">
 
     <TextView
@@ -61,10 +62,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout6"
-        android:layout_width="360dp"
-        android:layout_height="53dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -73,18 +77,24 @@
             android:id="@+id/shop_buttonUpgrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:backgroundTint="#9932CC"
             android:layout_weight="1"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/upgrade"
+            app:cornerRadius="16dp"
+            android:layout_marginRight="5dp"
             android:text="Upgrade" />
 
         <Button
             android:id="@+id/shop_buttonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:layout_weight="1"
+            android:backgroundTint="#9932CC"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/back_arrow"
+            android:layout_marginLeft="5dp"
+            app:cornerRadius="16dp"
             android:text="Back" />
     </LinearLayout>
 

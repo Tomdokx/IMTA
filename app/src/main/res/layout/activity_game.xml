@@ -4,41 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".GameActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/game_buttonShop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetLeft="10dp"
-            android:text="Shop" />
-
-        <Button
             android:id="@+id/game_buttonAbility"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Ability"
+            android:backgroundTint="#9932CC"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/lightning_bolt"
+            app:cornerRadius="16dp" />
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetLeft="10dp"
-            android:text="Ability" />
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/game_buttonShop"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Shop"
+                android:layout_marginRight="5dp"
+                android:backgroundTint="#9932CC"
+                android:textColor="@android:color/white"
+                android:drawableLeft="@drawable/shoppingcart"
+                app:cornerRadius="16dp" />
+            <Button
+                android:id="@+id/game_buttonMenu"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Menu"
+                android:layout_marginLeft="5dp"
+                android:backgroundTint="#9932CC"
+                android:textColor="@android:color/white"
+                android:drawableLeft="@drawable/menu"
+                app:cornerRadius="16dp" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/game_buttonMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetLeft="10dp"
-            android:insetRight="10dp"
-            android:text="Menu" />
     </LinearLayout>
 
     <ImageView
@@ -56,12 +70,12 @@
         android:id="@+id/game_imageButtonEmote"
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:background="@drawable/ic_launcher_emote_background"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintCircleRadius="@android:dimen/app_icon_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/ic_launcher_emote_background"
         app:srcCompat="@drawable/emote_feelsgoodman"
         tools:srcCompat="@drawable/emote_feelsgoodman" />
 
@@ -73,6 +87,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="0"
         android:textSize="25dp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +101,8 @@
         android:background="@drawable/ic_launcher_levelbackground"
         android:gravity="center_vertical|center_horizontal"
         android:text="0"
-        android:textSize="10dp"
+        android:textColor="@color/black"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,7 +132,8 @@
         android:id="@+id/game_textViewEmoteHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="xxx"
+        android:text="HP%"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/game_viewHPBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
