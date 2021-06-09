@@ -18,7 +18,7 @@ class ShopRecyclerViewAdapter(
     private val onClick: (holder: RecyclerView.ViewHolder, selectedPosition: Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var selectedPosition: Int = 0
+    var selectedPosition: Int? = null
 
     inner class ViewHolderPlayer(view: View, parent: ViewGroup) : RecyclerView.ViewHolder(view) {
 

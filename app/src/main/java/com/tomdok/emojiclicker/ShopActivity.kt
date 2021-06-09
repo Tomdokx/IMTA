@@ -50,6 +50,7 @@ class ShopActivity : AppCompatActivity() {
         setContentView(R.layout.activity_shop)
 
         buttonBack.setOnClickListener { goBackToGame() }
+        buttonUpgrade.isClickable = false
 
         recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
             onClick = { holder, selectedPosition ->
@@ -68,7 +69,6 @@ class ShopActivity : AppCompatActivity() {
 
                         val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
                         holder.selected = true
-
                     }
                     else -> {
 
@@ -90,9 +90,11 @@ class ShopActivity : AppCompatActivity() {
         when(selectedPosition) {
 
             0-> {
+
                 buttonUpgrade.text = "Upgrade (${tCoinsToString(player.calculatePrice())})"
             }
-            else->{
+            else-> {
+
                 buttonUpgrade.text = "Upgrade (${tCoinsToString(heroes[selectedPosition-1].calculatePrice())})"
             }
         }
@@ -118,10 +120,10 @@ class ShopActivity : AppCompatActivity() {
                     player.tCoins -= player.calculatePrice()
                     holder.textViewLevel.text = player.level.toString()
                 }
-
                 else -> {
 
-                    if (player.tCoins < heroes[selectedPosition-1].calculatePrice()){
+                    if (player.tCoins < heroes[selectedPosition-1].calculatePrice()) {
+
                         buttonUpgrade.isClickable = false
                         return
                     }
