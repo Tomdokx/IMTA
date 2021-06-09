@@ -60,12 +60,15 @@ class ShopActivity : AppCompatActivity() {
                     holder?.selected = false
                 }
 
+                showCalculatedPrice(selectedPosition)
+
                 when (selectedPosition) {
 
                     0 -> {
 
                         val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
                         holder.selected = true
+
                     }
                     else -> {
 
@@ -79,8 +82,21 @@ class ShopActivity : AppCompatActivity() {
                 buttonUpgrade.setOnClickListener { upgrade(selectedPosition, holder) }
             })
 
-    showTCoins()
-}
+        showTCoins()
+    }
+
+    private fun showCalculatedPrice(selectedPosition: Int) {
+
+        when(selectedPosition) {
+
+            0-> {
+                buttonUpgrade.text = "Upgrade (${tCoinsToString(player.calculatePrice())})"
+            }
+            else->{
+                buttonUpgrade.text = "Upgrade (${tCoinsToString(heroes[selectedPosition-1].calculatePrice())})"
+            }
+        }
+    }
 
     private fun upgrade(selectedPosition: Int, holder: RecyclerView.ViewHolder) {
 
@@ -90,7 +106,7 @@ class ShopActivity : AppCompatActivity() {
 
                 0 -> {
 
-                    if (player.tCoins < 50) {
+                    if (player.tCoins < player.calculatePrice()) {
 
                         buttonUpgrade.isClickable = false
                         return
@@ -99,13 +115,13 @@ class ShopActivity : AppCompatActivity() {
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
                     player.level += 1
                     player.dps += 5.0
-                    player.tCoins -= 50
+                    player.tCoins -= player.calculatePrice()
                     holder.textViewLevel.text = player.level.toString()
                 }
 
                 else -> {
 
-                    if (player.tCoins < 20){
+                    if (player.tCoins < heroes[selectedPosition-1].calculatePrice()){
                         buttonUpgrade.isClickable = false
                         return
                     }
@@ -113,14 +129,13 @@ class ShopActivity : AppCompatActivity() {
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
                     heroes[selectedPosition - 1].level += 1
                     holder.textViewLevel.text = heroes[selectedPosition - 1].level.toString()
-                    player.tCoins -= 20
+                    player.tCoins -= heroes[selectedPosition-1].calculatePrice()
                 }
             }
         }
 
         showTCoins()
     }
-
 
     private fun goBackToGame() {
 
@@ -129,29 +144,6 @@ class ShopActivity : AppCompatActivity() {
 
     private fun showTCoins() {
 
-        var tCoinsShow: String = ""
-        var tCoins = player.tCoins
-
-        if (tCoins/1000 >= 1) {
-
-            if (tCoins > Double.MAX_VALUE){
-
-                tCoinsShow += "XXX"
-            } else if (tCoins / 1000000000 >= 1) {
-
-                tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
-            } else if (tCoins / 1000000 >= 1) {
-
-                tCoinsShow += "%.2f M".format(tCoins / 1000000.0)
-            } else {
-
-                tCoinsShow += "%.2f K".format(tCoins / 1000.0)
-            }
-        } else {
-
-            tCoinsShow += tCoins.toString()
-        }
-
-        textViewCoins.text = tCoinsShow
+        textViewCoins.text = tCoinsToString(player.tCoins)
     }
 }

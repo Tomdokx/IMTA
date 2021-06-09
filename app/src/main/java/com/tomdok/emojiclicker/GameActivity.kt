@@ -27,9 +27,6 @@ class GameActivity : AppCompatActivity() {
 
     //Do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that) -- Pepek thingy
 
-    //DO BETTER END GAME
-    //Price upgrade + not able to buy upgrade without the amount of TCoins --  +/- DONE
-    //Need to handle info about upgrade price
     // balance gaining tCoins
 
     //TO DO add Record into the database in End Activity
@@ -79,7 +76,6 @@ class GameActivity : AppCompatActivity() {
     private var heroList = Store.getInstance().heroes
 
     private var widthHPBar = 0
-    private var finished = false
 
     private var startTime: Long? = null
     private var endTime: Long? = null
@@ -276,30 +272,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun showTCoins() {
 
-        var tCoinsShow: String = ""
-        var tCoins = player.tCoins
-
-        if (tCoins/1000 >= 1) {
-
-            if (tCoins > Int.MAX_VALUE) {
-
-                tCoinsShow += "XXX"
-            } else if (tCoins / 1000000000 >= 1) {
-
-                tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
-            } else if (tCoins / 1000000 >= 1) {
-
-                tCoinsShow += "%.2f M".format(tCoins / 1000000.0)
-            } else {
-
-                tCoinsShow += "%.2f K".format(tCoins / 1000.0)
-            }
-        } else {
-
-            tCoinsShow += tCoins.toString()
-        }
-
-        textViewCoins.text = tCoinsShow
+        textViewCoins.text = tCoinsToString(player.tCoins)
     }
 
     private fun changeEmote() {
