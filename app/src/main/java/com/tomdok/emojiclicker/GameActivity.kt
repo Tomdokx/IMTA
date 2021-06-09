@@ -14,6 +14,7 @@ import com.tomdok.emojiclicker.classes.Player
 import database.GameDatabase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
+import store.Store
 import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
@@ -70,11 +71,11 @@ class GameActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.game_textViewLevel)
     }
 
+    private var store : Store = Store.getInstance()
+
     private var tCoins = 0
 
     private val rnd = Random(8654231597)
-
-    private var currentIdEmote = 1
 
     private var player: Player = Player("xx",0,0,22.2)
     private var emoteList = listOf<Emote>()
@@ -140,10 +141,10 @@ class GameActivity : AppCompatActivity() {
             Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
         )
 
-        imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
-        textViewEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
+        imageButtonEmote.setImageResource(emoteList[store.currentGameLevel].picture)
+        textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
         widthHPBar = viewHP.layoutParams.width
-        textViewLevel.text = currentIdEmote.toString()
+        textViewLevel.text = store.currentGameLevel.toString()
 
         imageViewBoss.setImageResource(R.drawable.emote_kekw)
 
@@ -162,10 +163,10 @@ class GameActivity : AppCompatActivity() {
 
                         if(heroList[0].level > 0) {
 
-                            heroList[0].doDamage(emoteList[currentIdEmote])
+                            heroList[0].doDamage(emoteList[store.currentGameLevel])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
-                            if (currentIdEmote == emoteList.size -1){
+                            if (store.currentGameLevel == emoteList.size -1){
 
                                 finished = true
                                 endTheGame()
@@ -186,11 +187,11 @@ class GameActivity : AppCompatActivity() {
 
                         if(heroList[1].level > 0){
 
-                            heroList[1].doDamage(emoteList[currentIdEmote])
+                            heroList[1].doDamage(emoteList[store.currentGameLevel])
                             tCoins += rnd.nextInt(2,5)
                             refreshHPBar()
 
-                            if (currentIdEmote == emoteList.size -1){
+                            if (store.currentGameLevel == emoteList.size -1){
 
                                 finished = true
                                 endTheGame()
@@ -210,11 +211,11 @@ class GameActivity : AppCompatActivity() {
 
                         if(heroList[2].level > 0) {
 
-                            heroList[2].doDamage(emoteList[currentIdEmote])
+                            heroList[2].doDamage(emoteList[store.currentGameLevel])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
 
-                            if (currentIdEmote == emoteList.size -1){
+                            if (store.currentGameLevel == emoteList.size -1){
 
                                 finished = true
                                 endTheGame()
@@ -234,11 +235,11 @@ class GameActivity : AppCompatActivity() {
 
                         if(heroList[3].level > 0) {
 
-                            heroList[3].doDamage(emoteList[currentIdEmote])
+                            heroList[3].doDamage(emoteList[store.currentGameLevel])
                             tCoins += rnd.nextInt(2, 5)
                             refreshHPBar()
 
-                            if (currentIdEmote == emoteList.size -1){
+                            if (store.currentGameLevel == emoteList.size -1){
 
                                 finished = true
                                 endTheGame()
@@ -286,18 +287,18 @@ class GameActivity : AppCompatActivity() {
 
             runOnUiThread(Runnable {
 
-                if (emoteList[currentIdEmote].currentHp < 0 && currentIdEmote < emoteList.size -1) {
+                if (emoteList[store.currentGameLevel].currentHp < 0 && store.currentGameLevel < emoteList.size -1) {
 
                     changeEmote()
                 }
 
-                textViewEmoteHP.text = ((emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp) * 100).toInt().toString() + "%"
+                textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
 
                 tCoins += rnd.nextInt(2,5)
 
                 showTCoins()
 
-                var ratio = emoteList[currentIdEmote].currentHp / emoteList[currentIdEmote].maxHp
+                var ratio = emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp
                 if (ratio <= 0.0) {
 
                     ratio = 0.01
@@ -309,7 +310,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun doDpsClick() {
 
-        player.clickAndDoDps(emoteList[currentIdEmote])
+        player.clickAndDoDps(emoteList[store.currentGameLevel])
 
         GlobalScope.launch {
 
@@ -317,7 +318,7 @@ class GameActivity : AppCompatActivity() {
 
                 refreshHPBar()
 
-                if (currentIdEmote == emoteList.size -1){
+                if (store.currentGameLevel == emoteList.size -1){
 
                     finished = true
                     endTheGame()
@@ -357,9 +358,9 @@ class GameActivity : AppCompatActivity() {
 
     private fun changeEmote() {
 
-        currentIdEmote += 1
-        imageButtonEmote.setImageResource(emoteList[currentIdEmote].picture)
-        textViewLevel.text = currentIdEmote.toString()
+        store.currentGameLevel += 1
+        imageButtonEmote.setImageResource(emoteList[store.currentGameLevel].picture)
+        textViewLevel.text = store.currentGameLevel.toString()
 
     }
 
