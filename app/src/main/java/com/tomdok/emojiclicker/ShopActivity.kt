@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import android.widget.Toast
+import store.Store
 
 class ShopActivity : AppCompatActivity() {
 
@@ -33,10 +34,8 @@ class ShopActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.shop_recyclerView)
     }
 
-    private var tCoins = 0
-
-    var optionalPlayer: Player? = null
-    var heroes = listOf<Hero>()
+    var player: Player = Store.getInstance().player
+    var heroes = Store.getInstance().heroes
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,86 +51,61 @@ class ShopActivity : AppCompatActivity() {
 
         buttonBack.setOnClickListener { goBackToGame() }
 
-        runBlocking {
+        recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, player,
+            onClick = { holder, selectedPosition ->
 
-            CoroutineScope(IO).launch {
+                for (i in 1 until recyclerView.adapter?.itemCount!!) {
 
-                val databasePlayer: database.Player? = GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
-
-                databasePlayer?.let { databasePlayer ->
-
-                    optionalPlayer = Player(databasePlayer.name, databasePlayer.level, databasePlayer.coins, databasePlayer.dps)
-
-                    val databaseHeroes: List<database.Hero> = GameDatabase.getInstance(applicationContext).heroDAO.get("TestPlayer1")
-                    heroes += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 12.0, R.drawable.avatar2)
-                    heroes += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 23.0, R.drawable.avatar2)
-                    heroes += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 45.0, R.drawable.avatar2)
-                    heroes += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 68.0, R.drawable.avatar2)
+                    val holder = recyclerView.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
+                    holder?.selected = false
                 }
 
-            }.join()
-        }
+                when (selectedPosition) {
 
-        optionalPlayer?.let { player ->
+                    0 -> {
 
-            tCoins = player.tCoins
-
-            recyclerView.adapter = ShopRecyclerViewAdapter(applicationContext, heroes, optionalPlayer!!,
-                onClick = { holder, selectedPosition ->
-
-                    for (i in 1 until recyclerView.adapter?.itemCount!!) {
-
-                        val holder = recyclerView.findViewHolderForAdapterPosition(i) as ShopRecyclerViewAdapter.ViewHolderHero?
-                        holder?.selected = false
+                        val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
+                        holder.selected = true
                     }
+                    else -> {
 
-                    when (selectedPosition) {
-
-                        0 -> {
-
-                            val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
-                            holder.selected = true
-                        }
-                        else -> {
-
-                            val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
-                            holder.selected = true
-                            val playerHolder = recyclerView.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
-                            playerHolder?.selected = false
-                        }
+                        val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
+                        holder.selected = true
+                        val playerHolder = recyclerView.findViewHolderForAdapterPosition(0) as ShopRecyclerViewAdapter.ViewHolderPlayer?
+                        playerHolder?.selected = false
                     }
+                }
 
-                    buttonUpgrade.setOnClickListener { upgrade(selectedPosition, holder) }
-                })
-        } ?: return
+                buttonUpgrade.setOnClickListener { upgrade(selectedPosition, holder) }
+            })
 
-        showTCoins()
-    }
+    showTCoins()
+}
 
     private fun upgrade(selectedPosition: Int, holder: RecyclerView.ViewHolder) {
 
-        if (optionalPlayer != null && heroes.isNotEmpty()) {
+        if (heroes.isNotEmpty()) {
 
             when (selectedPosition) {
 
                 0 -> {
 
-                    if (tCoins < 50) {
+                    if (player.tCoins < 50) {
 
                         buttonUpgrade.isClickable = false
                         return
                     }
 
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
-                    optionalPlayer!!.level += 1
-                    optionalPlayer!!.dps += 5.0
-                    tCoins -= 50
-                    holder.textViewLevel.text = optionalPlayer?.level.toString()
+                    player.level += 1
+                    player.dps += 5.0
+                    player.tCoins -= 50
+                    holder.textViewLevel.text = player.level.toString()
                 }
 
                 else -> {
 
-                    if (tCoins < 20){
+                    if (player.tCoins < 20){
                         buttonUpgrade.isClickable = false
                         return
                     }
@@ -139,7 +113,7 @@ class ShopActivity : AppCompatActivity() {
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
                     heroes[selectedPosition - 1].level += 1
                     holder.textViewLevel.text = heroes[selectedPosition - 1].level.toString()
-                    tCoins -= 20
+                    player.tCoins -= 20
                 }
             }
         }
@@ -150,42 +124,20 @@ class ShopActivity : AppCompatActivity() {
 
     private fun goBackToGame() {
 
-        saveData()
-
         finish()
-    }
-
-    private fun saveData() {
-        optionalPlayer!!.tCoins = tCoins
-
-        runBlocking {
-
-            CoroutineScope(IO).launch {
-
-                val playerUpdate = database.Player(optionalPlayer!!.name,optionalPlayer!!.level,optionalPlayer!!.tCoins,optionalPlayer!!.dps)
-                GameDatabase.getInstance(applicationContext).playerDAO.update(playerUpdate)
-
-                for(hero in heroes){
-
-                    val heroUpdate = database.Hero(hero.id,hero.level,optionalPlayer!!.name)
-                    GameDatabase.getInstance(applicationContext).heroDAO.update(heroUpdate)
-                }
-
-            }.join()
-        }
     }
 
     private fun showTCoins() {
 
         var tCoinsShow: String = ""
+        var tCoins = player.tCoins
 
         if (tCoins/1000 >= 1) {
 
             if (tCoins > Double.MAX_VALUE){
-                tCoinsShow += "XXX"
-            }
 
-            else if (tCoins / 1000000000 >= 1) {
+                tCoinsShow += "XXX"
+            } else if (tCoins / 1000000000 >= 1) {
 
                 tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
             } else if (tCoins / 1000000 >= 1) {
@@ -195,7 +147,7 @@ class ShopActivity : AppCompatActivity() {
 
                 tCoinsShow += "%.2f K".format(tCoins / 1000.0)
             }
-        }else{
+        } else {
 
             tCoinsShow += tCoins.toString()
         }

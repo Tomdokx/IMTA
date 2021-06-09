@@ -12,8 +12,8 @@ import com.tomdok.emojiclicker.classes.Emote
 import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
 import database.GameDatabase
+import database.Record
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
 import store.Store
 import kotlin.random.Random
 
@@ -69,16 +69,17 @@ class GameActivity : AppCompatActivity() {
 
     private var store : Store = Store.getInstance()
 
-    private var tCoins = 0
-
     private val rnd = Random(8654231597)
 
     private var player: Player = Player("xx",0,0,22.2)
     private var emoteList = listOf<Emote>()
-    private var heroList = listOf<Hero>()
+    private var heroList = Store.getInstance().heroes
 
     private var widthHPBar = 0
     private var finished = false
+
+    private var startTime: Long? = null
+    private var endTime: Long? = null
 
     var heroesDoingDmg = mutableListOf<Job?>(null,null,null,null)
 
@@ -95,7 +96,7 @@ class GameActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_game)
 
-        loadData()
+        showTCoins()
 
         buttonMenu.setOnClickListener { goToMenuActivity() }
         buttonToShop.setOnClickListener { goToShopActivity() }
@@ -151,157 +152,131 @@ class GameActivity : AppCompatActivity() {
 
     private fun doHeroDmg() {
 
-            heroesDoingDmg[0] = GlobalScope.launch {
+        if (startTime == null) {
 
-                while (!finished) {
-
-                    runBlocking {
-
-                        if(heroList[0].level > 0) {
-
-                            heroList[0].doDamage(emoteList[store.currentGameLevel])
-                            tCoins += rnd.nextInt(2, 5)
-                            refreshHPBar()
-                            if (store.currentGameLevel == emoteList.size -1){
-
-                                finished = true
-                                endTheGame()
-                            }
-                        }
-                    }
-
-                    delay(4500)
-                }
-            }
-
-
-            heroesDoingDmg[1] = GlobalScope.launch {
-
-                while (!finished) {
-
-                    runBlocking {
-
-                        if(heroList[1].level > 0){
-
-                            heroList[1].doDamage(emoteList[store.currentGameLevel])
-                            tCoins += rnd.nextInt(2,5)
-                            refreshHPBar()
-
-                            if (store.currentGameLevel == emoteList.size -1){
-
-                                finished = true
-                                endTheGame()
-                            }
-                        }
-                    }
-
-                    delay(5150)
-                }
-            }
-
-            heroesDoingDmg[2] = GlobalScope.launch {
-
-                while (!finished) {
-
-                    runBlocking {
-
-                        if(heroList[2].level > 0) {
-
-                            heroList[2].doDamage(emoteList[store.currentGameLevel])
-                            tCoins += rnd.nextInt(2, 5)
-                            refreshHPBar()
-
-                            if (store.currentGameLevel == emoteList.size -1){
-
-                                finished = true
-                                endTheGame()
-                            }
-                        }
-                    }
-
-                    delay(7010)
-                }
-            }
-
-            heroesDoingDmg[3] = GlobalScope.launch {
-
-                while (!finished) {
-
-                    runBlocking {
-
-                        if(heroList[3].level > 0) {
-
-                            heroList[3].doDamage(emoteList[store.currentGameLevel])
-                            tCoins += rnd.nextInt(2, 5)
-                            refreshHPBar()
-
-                            if (store.currentGameLevel == emoteList.size -1){
-
-                                finished = true
-                                endTheGame()
-                            }
-                        }
-                    }
-
-                    delay(9111)
-                }
-            }
-    }
-
-    private fun loadData() {
-        var optionalPlayer: Player? = null
-        heroList = listOf<Hero>()
-        runBlocking {
-
-            CoroutineScope(IO).launch {
-
-                val databasePlayer: database.Player? = GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
-
-                databasePlayer?.let { databasePlayer ->
-
-                    optionalPlayer = Player(databasePlayer.name, databasePlayer.level, databasePlayer.coins, databasePlayer.dps)
-                    val databaseHeroes: List<database.Hero> = GameDatabase.getInstance(applicationContext).heroDAO.get("TestPlayer1")
-                    heroList += Hero(databaseHeroes[0].id!!, "Hero1", databaseHeroes[0].level, 3.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[1].id!!, "Hero2", databaseHeroes[1].level, 8.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[2].id!!, "Hero3", databaseHeroes[2].level, 11.0, R.drawable.avatar2)
-                    heroList += Hero(databaseHeroes[3].id!!, "Hero4", databaseHeroes[3].level, 15.0, R.drawable.avatar2)
-                }
-            }.join()
+            startTime = System.currentTimeMillis()
         }
 
-        if (optionalPlayer != null) {
+        heroesDoingDmg[0] = GlobalScope.launch {
 
-            player = optionalPlayer!!
-            tCoins = player.tCoins
+            while (!finished) {
+
+                runBlocking {
+
+                    if(heroList[0].level > 0) {
+
+                        heroList[0].doDamage(emoteList[store.currentGameLevel])
+                        store.player.tCoins += rnd.nextInt(2, 5)
+                        refreshHPBar()
+                        if (store.currentGameLevel == emoteList.size -1){
+
+                            finished = true
+                            endTheGame()
+                        }
+                    }
+                }
+
+                delay(4500)
+            }
         }
 
-        showTCoins()
-    }
 
+        heroesDoingDmg[1] = GlobalScope.launch {
+
+            while (!finished) {
+
+                runBlocking {
+
+                    if(heroList[1].level > 0){
+
+                        heroList[1].doDamage(emoteList[store.currentGameLevel])
+                        store.player.tCoins += rnd.nextInt(2,5)
+                        refreshHPBar()
+
+                        if (store.currentGameLevel == emoteList.size -1){
+
+                            finished = true
+                            endTheGame()
+                        }
+                    }
+                }
+
+                delay(5150)
+            }
+        }
+
+        heroesDoingDmg[2] = GlobalScope.launch {
+
+            while (!finished) {
+
+                runBlocking {
+
+                    if(heroList[2].level > 0) {
+
+                        heroList[2].doDamage(emoteList[store.currentGameLevel])
+                        store.player.tCoins += rnd.nextInt(2, 5)
+                        refreshHPBar()
+
+                        if (store.currentGameLevel == emoteList.size -1){
+
+                            finished = true
+                            endTheGame()
+                        }
+                    }
+                }
+
+                delay(7010)
+            }
+        }
+
+        heroesDoingDmg[3] = GlobalScope.launch {
+
+            while (!finished) {
+
+                runBlocking {
+
+                    if(heroList[3].level > 0) {
+
+                        heroList[3].doDamage(emoteList[store.currentGameLevel])
+                        store.player.tCoins += rnd.nextInt(2, 5)
+                        refreshHPBar()
+
+                        if (store.currentGameLevel == emoteList.size -1){
+
+                            finished = true
+                            endTheGame()
+                        }
+                    }
+                }
+
+                delay(9111)
+            }
+        }
+    }
 
     private fun refreshHPBar() {
 
-            runOnUiThread(Runnable {
+        runOnUiThread(Runnable {
 
-                if (emoteList[store.currentGameLevel].currentHp < 0 && store.currentGameLevel < emoteList.size -1) {
+            if (emoteList[store.currentGameLevel].currentHp < 0 && store.currentGameLevel < emoteList.size -1) {
 
-                    changeEmote()
-                }
+                changeEmote()
+            }
 
-                textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
+            textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
 
-                tCoins += rnd.nextInt(2,5)
+            store.player.tCoins += rnd.nextInt(2,5)
 
-                showTCoins()
+            showTCoins()
 
-                var ratio = emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp
-                if (ratio <= 0.0) {
+            var ratio = emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp
+            if (ratio <= 0.0) {
 
-                    ratio = 0.01
-                }
+                ratio = 0.01
+            }
 
-                viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
-            })
+            viewHP.layoutParams.width = (widthHPBar * ratio).toInt()
+        })
     }
 
     private fun doDpsClick() {
@@ -326,15 +301,14 @@ class GameActivity : AppCompatActivity() {
     private fun showTCoins() {
 
         var tCoinsShow: String = ""
+        var tCoins = store.player.tCoins
 
         if (tCoins/1000 >= 1) {
 
-            if (tCoins > Int.MAX_VALUE){
+            if (tCoins > Int.MAX_VALUE) {
 
                 tCoinsShow += "XXX"
-            }
-
-            else if (tCoins / 1000000000 >= 1) {
+            } else if (tCoins / 1000000000 >= 1) {
 
                 tCoinsShow += "%.2f B".format(tCoins / 1000000000.0)
             } else if (tCoins / 1000000 >= 1) {
@@ -344,7 +318,7 @@ class GameActivity : AppCompatActivity() {
 
                 tCoinsShow += "%.2f K".format(tCoins / 1000.0)
             }
-        }else{
+        } else {
 
             tCoinsShow += tCoins.toString()
         }
@@ -357,10 +331,16 @@ class GameActivity : AppCompatActivity() {
         store.currentGameLevel += 1
         imageButtonEmote.setImageResource(emoteList[store.currentGameLevel].picture)
         textViewLevel.text = store.currentGameLevel.toString()
-
     }
 
     private fun endTheGame() {
+
+        endTime = System.currentTimeMillis()
+        var deltaTime: Long = endTime!! - startTime!!
+
+        GameDatabase.getInstance(applicationContext).recordDAO.insert(
+            Record(null, deltaTime, store.currentGameLevel, player.name)
+        )
 
         val intent = Intent(this, EndActivity::class.java)
         startActivity(intent)
@@ -370,7 +350,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun goToShopActivity() {
 
-        saveData()
+        stopHeroCoroutines()
 
         val intent = Intent(this,ShopActivity::class.java)
 
@@ -380,22 +360,11 @@ class GameActivity : AppCompatActivity() {
     override fun onResume() {
 
         super.onResume()
-        loadData()
 
         doHeroDmg()
     }
 
-    private fun saveData() {
-        player.tCoins = tCoins
-
-        runBlocking {
-
-            CoroutineScope(IO).launch {
-
-                val playerUpdate = database.Player(player.name,player.level,player.tCoins,player.dps)
-                GameDatabase.getInstance(applicationContext).playerDAO.update(playerUpdate)
-            }.join()
-        }
+    private fun stopHeroCoroutines() {
 
         for(heroDoingDmg in heroesDoingDmg){
 
@@ -405,7 +374,7 @@ class GameActivity : AppCompatActivity() {
 
     private fun goToMenuActivity() {
 
-        saveData()
+        stopHeroCoroutines()
 
         finish()
     }

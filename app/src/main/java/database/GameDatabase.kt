@@ -3,12 +3,11 @@ package database
 import android.content.Context
 import androidx.room.*
 
-@Database(entities = [Player::class, Hero::class, Record::class, Settings::class], version = 9, exportSchema = false)
+@Database(entities = [Player::class, Record::class, Settings::class], version = 11, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class GameDatabase : RoomDatabase() {
 
     abstract val playerDAO: PlayerDAO
-    abstract val heroDAO: HeroDAO
     abstract val recordDAO: RecordDAO
     abstract val settingsDAO: SettingsDAO
 
