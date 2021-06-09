@@ -9,12 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.tomdok.emojiclicker.classes.Emote
-import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
 import database.GameDatabase
 import database.Record
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 import store.Store
+import java.util.*
 import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
@@ -32,8 +33,6 @@ class GameActivity : AppCompatActivity() {
     // balance gaining tCoins
 
     //TO DO add Record into the database in End Activity
-
-
 
     private val imageViewBoss by lazy {
         findViewById<ImageView>(R.id.game_imageViewBoss)
@@ -75,8 +74,8 @@ class GameActivity : AppCompatActivity() {
 
     private val rnd = Random(8654231597)
 
-    private var player: Player = Player("xx",0,0,22.2)
-    private var emoteList = listOf<Emote>()
+    private var player: Player = Store.getInstance().player
+    private var emoteList: EmoteLinkedList = EmoteLinkedList()
     private var heroList = Store.getInstance().heroes
 
     private var widthHPBar = 0
@@ -108,42 +107,45 @@ class GameActivity : AppCompatActivity() {
 
         imageButtonEmote.setOnClickListener { doDpsClick() }
 
-        emoteList = listOf<Emote>(
-            Emote(1, "monkaS", 20.0, R.drawable.emote_monkas),
-            Emote(2, "pepeLaugh", 50.0, R.drawable.emote_pepelaugh),
-            Emote(3, "NOIDONTTHINKSO", 90.5, R.drawable.emote_noidontthinkso),
-            Emote(4, "Ddoubledot", 125.0, R.drawable.emote_ddvojtecka),
-            Emote(5, "coronaS", 170.5, R.drawable.emote_coronas),
-            Emote(6, "ABDULpls", 200.5, R.drawable.emote_abdulpls),
-            Emote(7, "ddHuh", 240.5, R.drawable.emote_ddhuh),
-            Emote(8, "peepoHappy", 240.5, R.drawable.emote_peepohappy),
-            Emote(9, "WaitWhat", 250.0, R.drawable.emote_waitwhat),
-            Emote(10, "Sadge", 270.5, R.drawable.emote_sadge),
-            Emote(11, "PogTasty", 285.0, R.drawable.emote_pogtasty),
-            Emote(12, "3Head", 285.5, R.drawable.emote_3head),
-            Emote(13, "AYAYA", 290.5, R.drawable.emote_ayaya),
-            Emote(14, "peepoLove", 300.0, R.drawable.emote_peepolove),
-            Emote(15, "KEKLEO", 326.5, R.drawable.emote_kekleo),
-            Emote(16, "5Head", 340.5, R.drawable.emote_5head),
-            Emote(17, "FeelsGoodMan", 350.0, R.drawable.emote_feelsgoodman),
-            Emote(18, "gachiGASM", 355.5, R.drawable.emote_gachigasm),
-            Emote(19, "hoSway", 370.5, R.drawable.emote_hosway),
-            Emote(20, "PauseChamp", 400.0, R.drawable.emote_pausechamp),
-            Emote(21, "peepoPooPoo", 450.0, R.drawable.emote_peepopoopoo),
-            Emote(22, "forsenCD", 455.5, R.drawable.emote_forsencd),
-            Emote(23, "HAHAA", 500.0, R.drawable.emote_hahaa),
-            Emote(24, "peepoSIMP", 510.0, R.drawable.emote_peeposimp),
-            Emote(25, "TriKool", 520.5, R.drawable.emote_trikool),
-            Emote(26, "weSmart", 520.5, R.drawable.emote_wesmart),
-            Emote(27, "LULW", 580.0, R.drawable.emote_lulw),
-            Emote(28, "WeirdChamp", 600.0, R.drawable.emote_weirdchamp),
-            Emote(29, "MLADY", 650.0, R.drawable.emote_mlady),
-            Emote(30, "peepoHey", 700.0, R.drawable.emote_peepohey),
-            Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
+        emoteList.addAll(
+            listOf<Emote>(
+                Emote(1, "monkaS", 20.0, R.drawable.emote_monkas),
+                Emote(2, "pepeLaugh", 50.0, R.drawable.emote_pepelaugh),
+                Emote(3, "NOIDONTTHINKSO", 90.5, R.drawable.emote_noidontthinkso),
+                Emote(4, "Ddoubledot", 125.0, R.drawable.emote_ddvojtecka),
+                Emote(5, "coronaS", 170.5, R.drawable.emote_coronas),
+                Emote(6, "ABDULpls", 200.5, R.drawable.emote_abdulpls),
+                Emote(7, "ddHuh", 240.5, R.drawable.emote_ddhuh),
+                Emote(8, "peepoHappy", 240.5, R.drawable.emote_peepohappy),
+                Emote(9, "WaitWhat", 250.0, R.drawable.emote_waitwhat),
+                Emote(10, "Sadge", 270.5, R.drawable.emote_sadge),
+                Emote(11, "PogTasty", 285.0, R.drawable.emote_pogtasty),
+                Emote(12, "3Head", 285.5, R.drawable.emote_3head),
+                Emote(13, "AYAYA", 290.5, R.drawable.emote_ayaya),
+                Emote(14, "peepoLove", 300.0, R.drawable.emote_peepolove),
+                Emote(15, "KEKLEO", 326.5, R.drawable.emote_kekleo),
+                Emote(16, "5Head", 340.5, R.drawable.emote_5head),
+                Emote(17, "FeelsGoodMan", 350.0, R.drawable.emote_feelsgoodman),
+                Emote(18, "gachiGASM", 355.5, R.drawable.emote_gachigasm),
+                Emote(19, "hoSway", 370.5, R.drawable.emote_hosway),
+                Emote(20, "PauseChamp", 400.0, R.drawable.emote_pausechamp),
+                Emote(21, "peepoPooPoo", 450.0, R.drawable.emote_peepopoopoo),
+                Emote(22, "forsenCD", 455.5, R.drawable.emote_forsencd),
+                Emote(23, "HAHAA", 500.0, R.drawable.emote_hahaa),
+                Emote(24, "peepoSIMP", 510.0, R.drawable.emote_peeposimp),
+                Emote(25, "TriKool", 520.5, R.drawable.emote_trikool),
+                Emote(26, "weSmart", 520.5, R.drawable.emote_wesmart),
+                Emote(27, "LULW", 580.0, R.drawable.emote_lulw),
+                Emote(28, "WeirdChamp", 600.0, R.drawable.emote_weirdchamp),
+                Emote(29, "MLADY", 650.0, R.drawable.emote_mlady),
+                Emote(30, "peepoHey", 700.0, R.drawable.emote_peepohey),
+                Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
+            )
         )
+        emoteList.rewind()
 
-        imageButtonEmote.setImageResource(emoteList[store.currentGameLevel].picture)
-        textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
+        imageButtonEmote.setImageResource(emoteList.actual().picture)
+        textViewEmoteHP.text = ((emoteList.actual().currentHp / emoteList.actual().maxHp) * 100).toInt().toString() + "%"
         widthHPBar = viewHP.layoutParams.width
         textViewLevel.text = store.currentGameLevel.toString()
 
@@ -156,27 +158,17 @@ class GameActivity : AppCompatActivity() {
 
     private fun doHeroDmg() {
 
-        if (startTime == null) {
-
-            startTime = System.currentTimeMillis()
-        }
-
         heroesDoingDmg[0] = GlobalScope.launch {
 
-            while (!finished) {
+            while (true) {
 
                 runBlocking {
 
-                    if(heroList[0].level > 0) {
+                    if(heroList[0].level > 0 && emoteList.hasNext()) {
 
-                        heroList[0].doDamage(emoteList[store.currentGameLevel])
-                        store.player.tCoins += rnd.nextInt(2, 5)
+                        heroList[0].doDamage(emoteList.actual())
+                        player.tCoins += rnd.nextInt(2, 5)
                         refreshHPBar()
-                        if (store.currentGameLevel == emoteList.size -1){
-
-                            finished = true
-                            endTheGame()
-                        }
                     }
                 }
 
@@ -187,21 +179,15 @@ class GameActivity : AppCompatActivity() {
 
         heroesDoingDmg[1] = GlobalScope.launch {
 
-            while (!finished) {
+            while (true) {
 
                 runBlocking {
 
                     if(heroList[1].level > 0){
 
-                        heroList[1].doDamage(emoteList[store.currentGameLevel])
-                        store.player.tCoins += rnd.nextInt(2,5)
+                        heroList[1].doDamage(emoteList.actual())
+                        player.tCoins += rnd.nextInt(2,5)
                         refreshHPBar()
-
-                        if (store.currentGameLevel == emoteList.size -1){
-
-                            finished = true
-                            endTheGame()
-                        }
                     }
                 }
 
@@ -211,21 +197,15 @@ class GameActivity : AppCompatActivity() {
 
         heroesDoingDmg[2] = GlobalScope.launch {
 
-            while (!finished) {
+            while (true) {
 
                 runBlocking {
 
                     if(heroList[2].level > 0) {
 
-                        heroList[2].doDamage(emoteList[store.currentGameLevel])
-                        store.player.tCoins += rnd.nextInt(2, 5)
+                        heroList[2].doDamage(emoteList.actual())
+                        player.tCoins += rnd.nextInt(2, 5)
                         refreshHPBar()
-
-                        if (store.currentGameLevel == emoteList.size -1){
-
-                            finished = true
-                            endTheGame()
-                        }
                     }
                 }
 
@@ -235,21 +215,15 @@ class GameActivity : AppCompatActivity() {
 
         heroesDoingDmg[3] = GlobalScope.launch {
 
-            while (!finished) {
+            while (true) {
 
                 runBlocking {
 
                     if(heroList[3].level > 0) {
 
-                        heroList[3].doDamage(emoteList[store.currentGameLevel])
-                        store.player.tCoins += rnd.nextInt(2, 5)
+                        heroList[3].doDamage(emoteList.actual())
+                        player.tCoins += rnd.nextInt(2, 5)
                         refreshHPBar()
-
-                        if (store.currentGameLevel == emoteList.size -1){
-
-                            finished = true
-                            endTheGame()
-                        }
                     }
                 }
 
@@ -262,18 +236,18 @@ class GameActivity : AppCompatActivity() {
 
         runOnUiThread(Runnable {
 
-            if (emoteList[store.currentGameLevel].currentHp < 0 && store.currentGameLevel < emoteList.size -1) {
+            if (emoteList.actual().currentHp < 0) {
 
                 changeEmote()
             }
 
-            textViewEmoteHP.text = ((emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp) * 100).toInt().toString() + "%"
+            textViewEmoteHP.text = ((emoteList.actual().currentHp / emoteList.actual().maxHp) * 100).toInt().toString() + "%"
 
-            store.player.tCoins += rnd.nextInt(2,5)
+            player.tCoins += rnd.nextInt(2,5)
 
             showTCoins()
 
-            var ratio = emoteList[store.currentGameLevel].currentHp / emoteList[store.currentGameLevel].maxHp
+            var ratio = emoteList.actual().currentHp / emoteList.actual().maxHp
             if (ratio <= 0.0) {
 
                 ratio = 0.01
@@ -285,19 +259,17 @@ class GameActivity : AppCompatActivity() {
 
     private fun doDpsClick() {
 
-        player.clickAndDoDps(emoteList[store.currentGameLevel])
+        if (startTime == null) {
+
+            startTime = System.currentTimeMillis()
+        }
 
         GlobalScope.launch {
 
             runBlocking {
 
+                player.clickAndDoDps(emoteList.actual())
                 refreshHPBar()
-
-                if (store.currentGameLevel == emoteList.size -1){
-
-                    finished = true
-                    endTheGame()
-                }
             }
         }
     }
@@ -305,7 +277,7 @@ class GameActivity : AppCompatActivity() {
     private fun showTCoins() {
 
         var tCoinsShow: String = ""
-        var tCoins = store.player.tCoins
+        var tCoins = player.tCoins
 
         if (tCoins/1000 >= 1) {
 
@@ -332,19 +304,34 @@ class GameActivity : AppCompatActivity() {
 
     private fun changeEmote() {
 
-        store.currentGameLevel += 1
-        imageButtonEmote.setImageResource(emoteList[store.currentGameLevel].picture)
-        textViewLevel.text = store.currentGameLevel.toString()
+        if (!emoteList.hasNext()) {
+
+            endTheGame()
+        } else {
+
+            store.currentGameLevel += 1
+            emoteList.next()
+            imageButtonEmote.setImageResource(emoteList.actual().picture)
+            textViewLevel.text = store.currentGameLevel.toString()
+        }
     }
 
     private fun endTheGame() {
 
+        stopHeroCoroutines()
+
         endTime = System.currentTimeMillis()
         var deltaTime: Long = endTime!! - startTime!!
 
-        GameDatabase.getInstance(applicationContext).recordDAO.insert(
-            Record(null, deltaTime, store.currentGameLevel, player.name)
-        )
+        runBlocking {
+
+            CoroutineScope(IO).launch {
+
+                GameDatabase.getInstance(applicationContext).recordDAO.insert(
+                    Record(null, deltaTime, store.currentGameLevel, player.name)
+                )
+            }.join()
+        }
 
         val intent = Intent(this, EndActivity::class.java)
         startActivity(intent)

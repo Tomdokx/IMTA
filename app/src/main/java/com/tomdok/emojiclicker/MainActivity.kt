@@ -59,6 +59,11 @@ class MainActivity : AppCompatActivity() {
                 GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer1"))
             }
         }
+
+        CoroutineScope(IO).launch {
+            GameDatabase.getInstance(applicationContext).recordDAO.deleteAll()
+        }
+
     }
 
     private fun quitTheGame() {

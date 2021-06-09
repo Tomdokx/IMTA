@@ -14,7 +14,7 @@ class Store {
     init {
 
         currentGameLevel = 1
-        player = Player("TestPlayer1", 1, 0, 8.0)
+        player = Player("TestPlayer1", 1, 0, 40.0)
         heroes += Hero("Hero1", 0, 5.0, R.drawable.avatar2)
         heroes += Hero("Hero2", 0, 10.0, R.drawable.avatar2)
         heroes += Hero("Hero3", 0, 15.0, R.drawable.avatar2)

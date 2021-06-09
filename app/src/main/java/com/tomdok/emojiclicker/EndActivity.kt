@@ -30,6 +30,12 @@ class EndActivity : AppCompatActivity() {
         setContentView(R.layout.activity_end)
 
         Store.getInstance().currentGameLevel = 1
+        Store.getInstance().player.tCoins = 0
+        Store.getInstance().player.level = 1
+
+        for (hero in Store.getInstance().heroes){
+            hero.level = 0
+        }
 
         buttonGreat.setOnClickListener { finish() }
     }
