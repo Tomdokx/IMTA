@@ -2,6 +2,7 @@ package com.tomdok.emojiclicker
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -9,12 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.tomdok.emojiclicker.classes.Emote
+import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
 import database.GameDatabase
 import database.Record
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import store.Store
+import java.lang.Math.sqrt
 import java.util.*
 import kotlin.random.Random
 
@@ -23,13 +26,10 @@ class GameActivity : AppCompatActivity() {
     //TO DO balance heroes / emotes -- LAST THINGY
 
     //animations of doDMG and switching emotes -- +/-
-    //Ability?? New class or 2 new attributes in Hero? -- ???
+
+    // About, settings, xxx
 
     //Do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that) -- Pepek thingy
-
-    // balance gaining tCoins
-
-    //TO DO add Record into the database in End Activity
 
     private val imageViewBoss by lazy {
         findViewById<ImageView>(R.id.game_imageViewBoss)
@@ -80,7 +80,7 @@ class GameActivity : AppCompatActivity() {
     private var startTime: Long? = null
     private var endTime: Long? = null
 
-    var heroesDoingDmg = mutableListOf<Job?>(null,null,null,null)
+    var heroesDoingDmg = mutableListOf<Job?>(null, null, null, null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -138,7 +138,13 @@ class GameActivity : AppCompatActivity() {
                 Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
             )
         )
+
         emoteList.rewind()
+
+        for (i in 0 until store.currentGameLevel) {
+
+            emoteList.next()
+        }
 
         imageButtonEmote.setImageResource(emoteList.actual().picture)
         textViewEmoteHP.text = ((emoteList.actual().currentHp / emoteList.actual().maxHp) * 100).toInt().toString() + "%"
@@ -163,7 +169,7 @@ class GameActivity : AppCompatActivity() {
                     if(heroList[0].level > 0 && emoteList.hasNext()) {
 
                         heroList[0].doDamage(emoteList.actual())
-                        player.tCoins += rnd.nextInt(2, 5)
+                        player.tCoins += addCoins()
                         refreshHPBar()
                     }
                 }
@@ -182,7 +188,7 @@ class GameActivity : AppCompatActivity() {
                     if(heroList[1].level > 0){
 
                         heroList[1].doDamage(emoteList.actual())
-                        player.tCoins += rnd.nextInt(2,5)
+                        player.tCoins += addCoins()
                         refreshHPBar()
                     }
                 }
@@ -200,7 +206,7 @@ class GameActivity : AppCompatActivity() {
                     if(heroList[2].level > 0) {
 
                         heroList[2].doDamage(emoteList.actual())
-                        player.tCoins += rnd.nextInt(2, 5)
+                        player.tCoins += addCoins()
                         refreshHPBar()
                     }
                 }
@@ -218,7 +224,7 @@ class GameActivity : AppCompatActivity() {
                     if(heroList[3].level > 0) {
 
                         heroList[3].doDamage(emoteList.actual())
-                        player.tCoins += rnd.nextInt(2, 5)
+                        player.tCoins += addCoins()
                         refreshHPBar()
                     }
                 }
@@ -226,6 +232,11 @@ class GameActivity : AppCompatActivity() {
                 delay(9111)
             }
         }
+    }
+
+    private fun addCoins(): Int {
+
+        return rnd.nextInt(2*(sqrt(store.currentGameLevel.toDouble()).toInt()),6*(sqrt(store.currentGameLevel.toDouble()).toInt()))
     }
 
     private fun refreshHPBar() {
@@ -238,8 +249,6 @@ class GameActivity : AppCompatActivity() {
             }
 
             textViewEmoteHP.text = ((emoteList.actual().currentHp / emoteList.actual().maxHp) * 100).toInt().toString() + "%"
-
-            player.tCoins += rnd.nextInt(2,5)
 
             showTCoins()
 
@@ -265,6 +274,8 @@ class GameActivity : AppCompatActivity() {
             runBlocking {
 
                 player.clickAndDoDps(emoteList.actual())
+
+                player.tCoins += addCoins()
                 refreshHPBar()
             }
         }
@@ -301,6 +312,7 @@ class GameActivity : AppCompatActivity() {
             CoroutineScope(IO).launch {
 
                 GameDatabase.getInstance(applicationContext).recordDAO.insert(
+
                     Record(null, deltaTime, store.currentGameLevel, player.name)
                 )
             }.join()
@@ -345,6 +357,33 @@ class GameActivity : AppCompatActivity() {
 
     private fun doAbility() {
 
-        TODO("Not yet implemented")
+        buttonAbility.isClickable = false
+
+        GlobalScope.launch {
+
+            GlobalScope.launch {
+
+                var maxLevelIndex = 0
+
+                for (i in heroList.indices) {
+
+                    if (maxLevelIndex < heroList[i].level) {
+
+                        maxLevelIndex = i
+                    }
+                }
+
+                heroList[maxLevelIndex].doAbility(player, emoteList.actual(), refreshHPBar = {refreshHPBar()})
+
+                refreshHPBar()
+
+            }.join()
+            delay(30000)
+            runOnUiThread(Runnable {
+
+                buttonAbility.isClickable = true
+            })
+
+        }
     }
 }

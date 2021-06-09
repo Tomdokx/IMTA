@@ -134,6 +134,8 @@ class ShopActivity : AppCompatActivity() {
                     player.tCoins -= heroes[selectedPosition-1].calculatePrice()
                 }
             }
+            
+            showCalculatedPrice(selectedPosition)
         }
 
         showTCoins()
