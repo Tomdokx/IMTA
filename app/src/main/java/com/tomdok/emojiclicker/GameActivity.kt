@@ -19,16 +19,20 @@ import kotlin.random.Random
 class GameActivity : AppCompatActivity() {
 
     //TO DO balance heroes / emotes -- LAST THINGY
+
     //animations of doDMG and switching emotes -- +/-
     //Ability?? New class or 2 new attributes in Hero? -- ???
 
-    //Finally do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that) -- Pepek thingy
+    //Do some graphics such as player + heroes icons, icon for the game and background (can use Biome class for that) -- Pepek thingy
 
+    //DO BETTER END GAME
     //Price upgrade + not able to buy upgrade without the amount of TCoins --  +/- DONE
     //Need to handle info about upgrade price
+    // balance gaining tCoins
 
-    //After switching activity, heroes still do dmg? -- NO
     //TO DO add Record into the database in End Activity
+
+
 
     private val imageViewBoss by lazy {
         findViewById<ImageView>(R.id.game_imageViewBoss)
