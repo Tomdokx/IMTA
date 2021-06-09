@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         btnQuit.setOnClickListener { quitTheGame() }
 
         // temporary
-        if(false){
+        if(false) {
 
             CoroutineScope(IO).launch {
                 GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer1", 56, 12, 15.6))
