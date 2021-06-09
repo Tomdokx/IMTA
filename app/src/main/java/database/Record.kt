@@ -15,7 +15,7 @@ import java.sql.Timestamp
 data class Record (
 
     @PrimaryKey val id: Long? = 0L,
-    @ColumnInfo val time: Timestamp,
+    @ColumnInfo val time: Long,
     @ColumnInfo val level: Int,
     @ColumnInfo(index = true) val player_name: String
 )
