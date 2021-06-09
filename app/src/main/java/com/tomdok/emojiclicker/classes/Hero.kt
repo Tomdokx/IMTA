@@ -1,16 +1,18 @@
 package com.tomdok.emojiclicker.classes
 
 import android.media.Image
+import com.tomdok.emojiclicker.Abilities.Ability
 import java.lang.Math.ceil
 
-class Hero(_name: String, _level: Int, _baseDPS: Double, _picture: Int, _baseUpgradeCost: Int, _price: Int) {
+class Hero(_name: String, _level: Int, _baseDPS: Double, _picture: Int, _baseUpgradeCost: Int, _price: Int, _ability: Ability) {
 
     val picture = _picture
-    val baseDPS = _baseDPS
+    var baseDPS = _baseDPS
     var level = _level
     val name = _name
     val price = _price
     val baseUpgradeCost = _baseUpgradeCost
+    val ability = _ability
 
     fun doDamage(emote: Emote) {
 
@@ -25,5 +27,10 @@ class Hero(_name: String, _level: Int, _baseDPS: Double, _picture: Int, _baseUpg
         }
 
         return ceil(baseUpgradeCost * level * 1.35).toInt()
+    }
+
+    fun doAbility(player: Player, emote: Emote, refreshHPBar: () -> Unit) {
+
+       return ability.doEffects(player, this, emote, refreshHPBar)
     }
 }

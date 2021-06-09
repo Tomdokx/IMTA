@@ -1,9 +1,12 @@
 package store
 
+import com.tomdok.emojiclicker.Abilities.AbilityDoExtraDamage
+import com.tomdok.emojiclicker.Abilities.AbilityDoubleDmgHero
+import com.tomdok.emojiclicker.Abilities.AbilityPowerUpPlayer
+import com.tomdok.emojiclicker.Abilities.AbilityQuickDamage
 import com.tomdok.emojiclicker.R
 import com.tomdok.emojiclicker.classes.Hero
 import com.tomdok.emojiclicker.classes.Player
-import java.sql.Struct
 
 class Store {
 
@@ -14,11 +17,11 @@ class Store {
     init {
 
         currentGameLevel = 1
-        player = Player("TestPlayer1", 1, 0, 40.0, 100)
-        heroes += Hero("Hero1", 0, 5.0, R.drawable.avatar2,20,100)
-        heroes += Hero("Hero2", 0, 10.0, R.drawable.avatar2,80, 350)
-        heroes += Hero("Hero3", 0, 15.0, R.drawable.avatar2,200,800)
-        heroes += Hero("Hero4", 0, 20.0, R.drawable.avatar2,400,1500)
+        player = Player("TestPlayer1", 1, 5000, 40.0, 100)
+        heroes += Hero("Hero1", 0, 5.0, R.drawable.avatar2,20,100, AbilityPowerUpPlayer(1.4,8000))
+        heroes += Hero("Hero2", 0, 10.0, R.drawable.avatar2,80, 350, AbilityDoubleDmgHero(7000))
+        heroes += Hero("Hero3", 0, 15.0, R.drawable.avatar2,200,800, AbilityDoExtraDamage(20.0,10000))
+        heroes += Hero("Hero4", 0, 20.0, R.drawable.avatar2,400,1500, AbilityQuickDamage(500.0))
     }
 
     companion object {
