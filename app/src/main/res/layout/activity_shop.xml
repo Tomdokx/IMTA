@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/background_004"
     tools:context=".ShopActivity">
 
     <TextView
@@ -37,9 +37,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="336dp"
-        android:layout_height="117dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
         android:layout_marginBottom="100dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="parent"

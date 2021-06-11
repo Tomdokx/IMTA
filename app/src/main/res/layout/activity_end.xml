@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_004"
     tools:context=".EndActivity">
 
     <LinearLayout
@@ -22,7 +23,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
             android:gravity="center"
-            android:text="END" />
+            android:textSize="32dp"
+            android:fontFamily="casual"
+            android:textStyle="italic|bold"
+            android:text="End" />
 
         <Button
             android:id="@+id/end_buttonGreat"

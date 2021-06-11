@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_001"
+    android:background="@drawable/background_004"
     tools:context=".GameActivity">
 
     <LinearLayout
@@ -138,7 +138,7 @@
         android:layout_height="wrap_content"
         android:text="HP%"
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="16dp"
         android:fontFamily="casual"
         android:textFontWeight="700"
         app:layout_constraintBottom_toTopOf="@+id/game_viewHPBar"
