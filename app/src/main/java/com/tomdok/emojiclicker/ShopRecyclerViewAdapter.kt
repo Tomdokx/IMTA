@@ -111,7 +111,7 @@ class ShopRecyclerViewAdapter(
             0 -> {
 
                 val holder = holder as ViewHolderPlayer
-                holder.imageViewPlayer.setImageResource(R.drawable.avatar2)
+                holder.imageViewPlayer.setImageResource(R.drawable.player)
                 holder.textViewName.text = player.name
                 holder.textViewLevel.text = player.level.toString()
                 holder.onClick = {

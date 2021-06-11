@@ -34,6 +34,10 @@ class ShopActivity : AppCompatActivity() {
         findViewById<RecyclerView>(R.id.shop_recyclerView)
     }
 
+    private val imageViewAbility by lazy {
+        findViewById<ImageView>(R.id.shop_imageViewAbility)
+    }
+
     var player: Player = Store.getInstance().player
     var heroes = Store.getInstance().heroes
 

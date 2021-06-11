@@ -20,8 +20,8 @@ class Store {
         player = Player("TestPlayer1", 1, 5000, 40.0, 100)
         heroes += Hero("Spartan", 0, 5.0, R.drawable.hero_spartan,20,100, AbilityPowerUpPlayer(1.4,8000))
         heroes += Hero("Viking", 0, 10.0, R.drawable.hero_viking,80, 350, AbilityDoubleDmgHero(7000))
-        heroes += Hero("Knight", 0, 15.0, R.drawable.hero_knight,200,800, AbilityDoExtraDamage(20.0,10000))
-        heroes += Hero("Wizard", 0, 20.0, R.drawable.hero_wizard,400,1500, AbilityQuickDamage(500.0))
+        heroes += Hero("Wizard", 0, 15.0, R.drawable.hero_wizard,200,800, AbilityDoExtraDamage(20.0,10000))
+        heroes += Hero("Knight", 0, 20.0, R.drawable.hero_knight,400,1500, AbilityQuickDamage(500.0))
     }
 
     companion object {
