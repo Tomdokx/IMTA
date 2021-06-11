@@ -49,17 +49,15 @@
 
         <ImageView
             android:id="@+id/shop_imageViewAbility"
-            android:layout_width="1dp"
+            android:layout_width="125dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/avatar2" />
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/shop_textViewAbility"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="XXX" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout

@@ -312,14 +312,11 @@ class GameActivity : AppCompatActivity() {
 
             endTheGame()
         } else {
+
             store.currentGameLevel += 1
             emoteList.next()
             imageButtonEmote.setImageResource(emoteList.actual().picture)
             textViewLevel.text = store.currentGameLevel.toString()
-
-            if (emoteList.actual().name == "BOSS KEKW") {
-                imageViewBoss.setImageResource(R.drawable.emote_kekwait)
-            }
         }
     }
 
@@ -361,6 +358,8 @@ class GameActivity : AppCompatActivity() {
         super.onResume()
 
         doHeroDmg()
+        showTCoins()
+
     }
 
     private fun stopHeroCoroutines() {

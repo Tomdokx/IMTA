@@ -6,6 +6,8 @@ import com.tomdok.emojiclicker.classes.Player
 
 interface Ability {
 
-    fun doEffects(player: Player, hero: Hero, emote: Emote, refreshHPBar: () -> Unit)
+    val DESCRIPTION:String?
+    val PICTURE:Int?
 
+    fun doEffects(player: Player, hero: Hero, emote: Emote, refreshHPBar: () -> Unit)
 }

@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import android.widget.Toast
+import com.tomdok.emojiclicker.Abilities.AbilityDoExtraDamage
+import com.tomdok.emojiclicker.Abilities.AbilityQuickDamage
 import store.Store
 
 class ShopActivity : AppCompatActivity() {
@@ -36,6 +38,10 @@ class ShopActivity : AppCompatActivity() {
 
     private val imageViewAbility by lazy {
         findViewById<ImageView>(R.id.shop_imageViewAbility)
+    }
+
+    private val textViewAbility by lazy {
+        findViewById<TextView>(R.id.shop_textViewAbility)
     }
 
     var player: Player = Store.getInstance().player
@@ -66,6 +72,7 @@ class ShopActivity : AppCompatActivity() {
                 }
 
                 showCalculatedPrice(selectedPosition)
+                showAbility(selectedPosition)
 
                 when (selectedPosition) {
 
@@ -87,6 +94,17 @@ class ShopActivity : AppCompatActivity() {
             })
 
         showTCoins()
+    }
+
+    private fun showAbility(selectedPosition: Int) {
+
+        if (selectedPosition != 0) {
+            textViewAbility.text = heroes[selectedPosition - 1].ability.DESCRIPTION
+            imageViewAbility.setImageResource(heroes[selectedPosition - 1].ability.PICTURE!!)
+        }else{
+            textViewAbility.text = ""
+            imageViewAbility.setImageResource(0)
+        }
     }
 
     private fun showCalculatedPrice(selectedPosition: Int) {
@@ -119,9 +137,9 @@ class ShopActivity : AppCompatActivity() {
                     }
 
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderPlayer
+                    player.tCoins -= player.calculatePrice()
                     player.level += 1
                     player.dps += 5.0
-                    player.tCoins -= player.calculatePrice()
                     holder.textViewLevel.text = player.level.toString()
                 }
                 else -> {
@@ -133,9 +151,9 @@ class ShopActivity : AppCompatActivity() {
                     }
 
                     val holder = holder as ShopRecyclerViewAdapter.ViewHolderHero
+                    player.tCoins -= heroes[selectedPosition-1].calculatePrice()
                     heroes[selectedPosition - 1].level += 1
                     holder.textViewLevel.text = heroes[selectedPosition - 1].level.toString()
-                    player.tCoins -= heroes[selectedPosition-1].calculatePrice()
                 }
             }
             

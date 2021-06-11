@@ -8,9 +8,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
-class AbilityDoubleDmgHero(_duration: Long): Ability {
+class AbilityDoubleDmgHero(_duration: Long, _picture: Int): Ability {
 
     var duration = _duration
+    override val PICTURE = _picture
+    override val DESCRIPTION: String?
+        get() = "Viking starts to be in rage, this will cause him to do double damage."
 
     override fun doEffects(player: Player, hero: Hero, emote: Emote, refreshHPBar: () -> Unit) {
 

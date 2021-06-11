@@ -11,8 +11,8 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -23,10 +23,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#9932CC"
-            android:textColor="@android:color/white"
             android:drawableLeft="@drawable/back_arrow"
-            app:cornerRadius="16dp"
-            android:text="Back" />
+            android:text="Back"
+            android:textColor="@android:color/white"
+            app:cornerRadius="16dp" />
     </LinearLayout>
 
     <TextView
@@ -34,8 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="70dp"
+        android:layout_marginRight="40dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

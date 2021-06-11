@@ -7,16 +7,6 @@
     android:background="@drawable/background_004"
     tools:context=".SettingsActivity">
 
-    <ImageButton
-        android:id="@+id/imgbtntry"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="140dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar2" />
-
     <Button
         android:id="@+id/settings_buttonBack"
         android:layout_width="wrap_content"
@@ -32,12 +22,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tVTry"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:layout_width="276dp"
+        android:layout_height="528dp"
+        android:layout_marginTop="48dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/settings_textViewRename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPersonName"
+            android:text="Name" />
+
+        <Button
+            android:id="@+id/settings_buttonRename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rename" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="191dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="Animation" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/settings_chipAnimation"
+                android:layout_width="106dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

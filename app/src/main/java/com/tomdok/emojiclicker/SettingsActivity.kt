@@ -8,19 +8,11 @@ import android.widget.TextView
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val imgbtn by lazy {
-        findViewById<ImageButton>(R.id.imgbtntry)
-    }
-
-    private val tVTry by lazy {
-        findViewById<TextView>(R.id.tVTry)
-    }
 
     private val buttonBack by lazy {
         findViewById<Button>(R.id.settings_buttonBack)
     }
 
-    private var x = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,13 +27,7 @@ class SettingsActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_settings)
 
-        imgbtn.setOnClickListener { inc() }
         buttonBack.setOnClickListener { goBackToMenu() }
-    }
-
-    private fun inc() {
-        x += 1
-        tVTry.text = x.toString()
     }
 
     private fun goBackToMenu() {

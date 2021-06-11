@@ -52,18 +52,14 @@ class MainActivity : AppCompatActivity() {
         btnToSettings.setOnClickListener { goToActivity(4) }
         btnQuit.setOnClickListener { quitTheGame() }
 
-        // temporary
-        if(false) {
+        CoroutineScope(IO).launch {
 
-            CoroutineScope(IO).launch {
+            val player:Player? =  GameDatabase.getInstance(applicationContext).playerDAO.get("TestPlayer1")
+            if(player == null){
+
                 GameDatabase.getInstance(applicationContext).playerDAO.insert(Player("TestPlayer1"))
             }
         }
-
-        CoroutineScope(IO).launch {
-            GameDatabase.getInstance(applicationContext).recordDAO.deleteAll()
-        }
-
     }
 
     private fun quitTheGame() {
