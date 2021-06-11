@@ -127,7 +127,7 @@ class GameActivity : AppCompatActivity() {
                 Emote(20, "PauseChamp", 400.0, R.drawable.emote_pausechamp),
                 Emote(21, "peepoPooPoo", 450.0, R.drawable.emote_peepopoopoo),
                 Emote(22, "forsenCD", 455.5, R.drawable.emote_forsencd),
-                Emote(23, "HAHAA", 500.0, R.drawable.emote_hahaa),
+                Emote(23, "HAHAA", 500.0, R.drawable.emote_hahaa2),
                 Emote(24, "peepoSIMP", 510.0, R.drawable.emote_peeposimp),
                 Emote(25, "TriKool", 520.5, R.drawable.emote_trikool),
                 Emote(26, "weSmart", 520.5, R.drawable.emote_wesmart),
@@ -135,7 +135,27 @@ class GameActivity : AppCompatActivity() {
                 Emote(28, "WeirdChamp", 600.0, R.drawable.emote_weirdchamp),
                 Emote(29, "MLADY", 650.0, R.drawable.emote_mlady),
                 Emote(30, "peepoHey", 700.0, R.drawable.emote_peepohey),
-                Emote(31, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
+                Emote(31, "BASED", 750.0, R.drawable.emote_based),
+                Emote(32, "chikaYo", 800.0, R.drawable.emote_chikayo),
+                Emote(33, "COPIUM", 999.0, R.drawable.emote_copium),
+                Emote(34, "CouldYouNot", 1050.0, R.drawable.emote_couldyounot),
+                Emote(35, "FeelsHangMan", 1200.0, R.drawable.emote_feelshangman),
+                Emote(36, "HAhaa", 1250.0, R.drawable.emote_hahaa1),
+                Emote(37, "KKomrade", 1300.0, R.drawable.emote_kkomrade),
+                Emote(38, "mericCat", 1350.0, R.drawable.emote_mericcat),
+                Emote(39, "MonkaHmm", 1400.0, R.drawable.emote_monkahmm),
+                Emote(40, "OMEGALUL", 1420.0, R.drawable.emote_omegalul),
+                Emote(41, "PagMan", 1470.0, R.drawable.emote_pagman),
+                Emote(42, "peepoBlonket", 1520.0, R.drawable.emote_peepoblonket),
+                Emote(43, "peepoFAT", 1600.0, R.drawable.emote_peepofat),
+                Emote(44, "peepoSad", 1650.0, R.drawable.emote_peeposad),
+                Emote(45, "peepoTub", 1700.0, R.drawable.emote_peepotub),
+                Emote(46, "pepeL", 1750.0, R.drawable.emote_pepel),
+                Emote(47, "pepoClown", 1800.0, R.drawable.emote_pepoclown),
+                Emote(48, "pikaO", 1850.0, R.drawable.emote_pikao),
+                Emote(49, "PogU", 1900.0, R.drawable.emote_pogu),
+                Emote(50, "YEPP", 1950.0, R.drawable.emote_yepp),
+                Emote(51, "BOSS KEKW", 1250.69, R.drawable.emote_kekw)
             )
         )
 

@@ -7,8 +7,8 @@
     tools:context=".EndActivity">
 
     <LinearLayout
-        android:layout_width="209dp"
-        android:layout_height="318dp"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +28,10 @@
             android:id="@+id/end_buttonGreat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Play again" />
+            android:text="Play again"
+            android:backgroundTint="#9932CC"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/play_again"
+            app:cornerRadius="16dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
