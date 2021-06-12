@@ -64,7 +64,7 @@
             android:orientation="horizontal">
 
             <Switch
-                android:id="@+id/settings_chipAnimation"
+                android:id="@+id/settings_switchAnimation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
