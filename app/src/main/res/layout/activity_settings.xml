@@ -23,10 +23,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:layout_width="276dp"
-        android:layout_height="528dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="75dp"
         android:orientation="vertical"
+        android:gravity="center|top"
+        app:layout_constraintBottom_toTopOf="@+id/settings_buttonBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -35,35 +40,38 @@
             android:id="@+id/settings_textViewRename"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginBottom="15dp"
+            android:ems="10"
+            android:textSize="24dp"
+            android:fontFamily="casual"
+            android:textStyle="bold|italic"
             android:inputType="textPersonName"
             android:text="Name" />
 
         <Button
             android:id="@+id/settings_buttonRename"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rename" />
+            android:backgroundTint="#9932CC"
+            android:textColor="@android:color/white"
+            android:text="Rename"
+            app:cornerRadius="16dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="77dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="50dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="191dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="Animation" />
-
-            <com.google.android.material.chip.Chip
+            <Switch
                 android:id="@+id/settings_chipAnimation"
-                android:layout_width="106dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textSize="24dp"
+                android:fontFamily="casual"
+                android:textStyle="bold|italic"
+                android:text="Animation" />
         </LinearLayout>
 
     </LinearLayout>

@@ -82,7 +82,7 @@ class RecordActivity : AppCompatActivity() {
             textViewTime.text = record.time.toString()
 
             val imageView = view.findViewById<ImageView>(R.id.records_row_imageView)
-            imageView.setImageResource(R.drawable.avatar2)
+            imageView.setImageResource(R.drawable.player)
 
             return view
         }

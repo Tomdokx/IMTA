@@ -15,6 +15,9 @@
         android:gravity="center_vertical|center_horizontal"
         android:text="0"
         android:textSize="25dp"
+        android:fontFamily="casual"
+        android:textFontWeight="700"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +52,7 @@
 
         <ImageView
             android:id="@+id/shop_imageViewAbility"
-            android:layout_width="125dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
@@ -57,6 +60,7 @@
             android:id="@+id/shop_textViewAbility"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1" />
     </LinearLayout>
 
