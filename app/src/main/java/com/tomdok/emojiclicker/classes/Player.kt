@@ -8,7 +8,7 @@ class Player(_name: String, _level: Int, _tCoins: Int, _dps: Double, _baseUpgrad
 
     var dps = _dps
     var tCoins = _tCoins
-    val name = _name
+    var name = _name
     var level = _level
     var baseUpgradeCost = _baseUpgradeCost
 

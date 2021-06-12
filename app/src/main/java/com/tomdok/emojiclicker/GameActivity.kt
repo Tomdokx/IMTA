@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -101,7 +102,11 @@ class GameActivity : AppCompatActivity() {
         buttonToShop.setOnClickListener { goToShopActivity() }
         buttonAbility.setOnClickListener { doAbility() }
 
-        imageButtonEmote.setOnClickListener { doDpsClick() }
+        imageButtonEmote.setOnClickListener {
+            val animator = AnimationUtils.loadAnimation(this, R.anim.tapdamage)
+            imageButtonEmote.startAnimation(animator)
+            doDpsClick()
+        }
 
         emoteList.addAll(
             listOf<Emote>(
@@ -317,6 +322,11 @@ class GameActivity : AppCompatActivity() {
             emoteList.next()
             imageButtonEmote.setImageResource(emoteList.actual().picture)
             textViewLevel.text = store.currentGameLevel.toString()
+
+            if(store.currentGameLevel == 50) {
+
+                imageViewBoss.setImageResource(0)
+            }
         }
     }
 
